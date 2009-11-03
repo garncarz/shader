@@ -1,5 +1,8 @@
 package objects;
 
+/**
+ * Typy stinovani
+ */
 public enum ShadingType {
 	ST_WIRE,                                         
     ST_CONST,

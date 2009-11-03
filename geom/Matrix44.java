@@ -22,6 +22,14 @@ public class Matrix44 {
 	}
 	
 	/**
+	 * Konstruktor
+	 * @param m Matice, jejiz obsah bude dosazen
+	 */
+	public Matrix44(Matrix44 m) {
+		set(m);
+	}
+	
+	/**
 	 * Konstruktor, nulove hodnoty prvku matice
 	 */
 	public Matrix44() {

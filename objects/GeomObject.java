@@ -1,9 +1,10 @@
 package objects;
 
+import geom.*;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
-import javax.vecmath.*;
 
 /**
  * Zakladni geometricke teleso
@@ -13,12 +14,12 @@ public class GeomObject {
 	/**
 	 * Difuzni koeficient odrazu
 	 */
-	Color3f diff;
+	ColorRGB diff;
 	
 	/**
 	 * Zrcadlovy koeficient odrazu
 	 */
-	Color3f spec;
+	ColorRGB spec;
 	
 	/**
 	 * Typ stinovani
@@ -28,7 +29,7 @@ public class GeomObject {
 	/**
 	 * Modelovaci transformace
 	 */
-	Matrix4d modTransf;
+	Matrix44 modTransf;
 	
 	/**
 	 * Seznam trojuhelniku telesa
@@ -40,9 +41,9 @@ public class GeomObject {
 	 * Modelovaci transformace posunuti
 	 * @param t Vektor o kolik
 	 */
-	void translate(Vector3d t) {
-		Matrix4d tmp = new Matrix4d(UnitMatrix.ONE4);
-		tmp.setTranslation(t);
+	void translate(Vector3D t) {
+		Matrix44 tmp = new Matrix44();
+		tmp.translateTransform(t);
 		modTransf.mul(tmp);
 	}
 	
@@ -51,10 +52,9 @@ public class GeomObject {
 	 * Modelovaci transformace zmena meritka
 	 * @param s Vektor zmeny meritka
 	 */
-	void scale(Vector3d s) {
-		Matrix4d tmp = new Matrix4d(UnitMatrix.ZERO4);
-		tmp.setColumn(3, new Vector4d(s));
-		tmp.setElement(3, 3, 1);
+	void scale(Vector3D s) {
+		Matrix44 tmp = new Matrix44();
+		tmp.scaleTransform(s);
 		modTransf.mul(tmp);
 	}
 	
@@ -63,57 +63,10 @@ public class GeomObject {
 	 * Modelovaci transformace rotace
 	 * @param r Vektor rotace
 	 */
-	void rotate(Vector3d r) {
-		double cosAlpha, sinAlpha;
-		Matrix4d rotate;
-		Matrix4d result = new Matrix4d(UnitMatrix.ONE4);
-		Vector3d radian = new Vector3d(r);
-		radian.scale(Math.PI / 2, radian);
-		
-		// rotace kolem osy x
-		rotate = new Matrix4d(UnitMatrix.ONE4);
-		cosAlpha = Math.cos(radian.getX());
-		sinAlpha = Math.sin(radian.getX());
-		if (Math.abs(cosAlpha) < Definitions.EPSILON)
-			cosAlpha = 0;
-		if (Math.abs(sinAlpha) < Definitions.EPSILON)
-			sinAlpha = 0;
-		rotate.setElement(2, 2, cosAlpha);
-		rotate.setElement(2, 3, sinAlpha);
-		rotate.setElement(3, 2, -sinAlpha);
-		rotate.setElement(3, 3, cosAlpha);
-		result.mul(rotate);
-		
-		// rotace kolem osy y
-		rotate = new Matrix4d(UnitMatrix.ONE4);
-		cosAlpha = Math.cos(radian.getY());
-		sinAlpha = Math.sin(radian.getY());
-		if (Math.abs(cosAlpha) < Definitions.EPSILON)
-			cosAlpha = 0;
-		if (Math.abs(sinAlpha) < Definitions.EPSILON)
-			sinAlpha = 0;
-		rotate.setElement(1, 1, cosAlpha);
-		rotate.setElement(1, 3, sinAlpha);
-		rotate.setElement(3, 1, -sinAlpha);
-		rotate.setElement(3, 3, cosAlpha);
-		result.mul(rotate);
-		
-		// rotace kolem osy z
-		rotate = new Matrix4d(UnitMatrix.ONE4);
-		cosAlpha = Math.cos(radian.getZ());
-		sinAlpha = Math.sin(radian.getZ());
-		if (Math.abs(cosAlpha) < Definitions.EPSILON)
-			cosAlpha = 0;
-		if (Math.abs(sinAlpha) < Definitions.EPSILON)
-			sinAlpha = 0;
-		rotate.setElement(1, 1, cosAlpha);
-		rotate.setElement(1, 2, sinAlpha);
-		rotate.setElement(2, 1, -sinAlpha);
-		rotate.setElement(2, 2, cosAlpha);
-		result.mul(rotate);
-		
-		// vysledek
-		modTransf.mul(result);
+	void rotate(Vector3D r) {
+		Matrix44 tmp = new Matrix44();
+		tmp.rotateTransform(r);
+		modTransf.mul(tmp);
 	}
 	
 	
@@ -122,19 +75,74 @@ public class GeomObject {
 	 */
 	void transform() {
 		Triangle t;
-		Vector4d newPoint;
-		Vector3d newNormal;
-		Vector3d p1, p2, p3, n, a, b;
+		Vector3Dh newPoint = new Vector3Dh();
+		Vector3D newNormal = new Vector3D();
+		Vector3D p1 = new Vector3D();
+		Vector3D p2 = new Vector3D();
+		Vector3D p3 = new Vector3D();
+		Vector3D n = new Vector3D();
+		Vector3D a = new Vector3D();
+		Vector3D b = new Vector3D();
 		
-		Matrix4d normTransf = new Matrix4d(UnitMatrix.ONE4);
+		Matrix44 normTransf = new Matrix44(modTransf);
+		normTransf.translateTransform(new Vector3D(0, 0, 0));
 		
 		Iterator<Triangle> iterator = triangles.iterator();
 		while (iterator.hasNext()) {
 			t = iterator.next();
 			
-			newPoint = new Vector4d(t.p1);
+			newPoint.set(t.p1);
+			newPoint.mul(modTransf);
+			newPoint.normalizeW();
+			t.p1.set(newPoint);
+			
+			newPoint.set(t.p2);
+			newPoint.mul(modTransf);
+			newPoint.normalizeW();
+			t.p2.set(newPoint);
+			
+			newPoint.set(t.p3);
+			newPoint.mul(modTransf);
+			newPoint.normalizeW();
+			t.p3.set(newPoint);
+			
+			newNormal.set(t.n1);
+			newNormal.mul(normTransf);
+			newNormal.normalize();
+			t.n1.set(newNormal);
+			
+			newNormal.set(t.n2);
+			newNormal.mul(normTransf);
+			newNormal.normalize();
+			t.n2.set(newNormal);
+			
+			newNormal.set(t.n3);
+			newNormal.mul(normTransf);
+			newNormal.normalize();
+			t.n3.set(newNormal);
+			
+			// prepocet normaly plochy trojuhelniku
+			p1.set(t.p1);
+			p2.set(t.p2);
+			p3.set(t.p3);
+			a.set(p2);
+			a.sub(p1);
+			b.set(p3);
+			b.sub(p1);
+			n.set(a);
+			n.cross(b);
+			n.normalize();
+			t.n.set(n);
 		}
-		
+	}	// transform
+	
+	
+	/**
+	 * Pripoji svuj seznam trojuhelniku k odkazovanemu seznamu 
+	 * @param list Cizi seznam trojuhelniku
+	 */
+	public void concatenate(ArrayList<Triangle> list) {
+		list.addAll(triangles);
 	}
 	
 }
