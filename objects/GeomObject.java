@@ -34,7 +34,7 @@ public class GeomObject {
 	/**
 	 * Seznam trojuhelniku telesa
 	 */
-	ArrayList<Triangle> triangles;
+	ArrayList<Triangle> triangles = new ArrayList<Triangle>();
 	
 	
 	/**

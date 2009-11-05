@@ -1,5 +1,7 @@
 package objects;
 
+import geom.*;
+
 /**
  * Kvadr
  */
@@ -69,7 +71,169 @@ public class Block extends GeomObject {
 	 * Trianguluje kvadr
 	 */
 	public void triangulate() {
-		// TODO doplnit
+		// body trojuhelniku, normala
+		Vector3D p1 = new Vector3D(),
+				p2 = new Vector3D(),
+				p3 = new Vector3D(),
+				n = new Vector3D();
+		// pocatecni barva
+		ColorRGB c = new ColorRGB(0, 0, 0);
+		// trojuhelnik
+		Triangle t;
+		// kroky pro triangulaci (delka, sirka, vyska)
+		double stepl, stepw, steph;
+		
+		// vypocet kroku pro triangulaci
+		stepl = (dl > 0) ? l / dl : l;
+		stepw = (dw > 0) ? w / dw : w;
+		steph = (dh > 0) ? h / dh : h;
+		
+		// predni a zadni strana
+		for (int i = 0; i < dl; i++)
+			for (int j = 0; j < dh; j++) {
+				// predni strana:
+				
+				// spodni trojuhelnik
+				p1.set(-l / 2 + i * stepl, -w / 2, -h / 2 + j * steph);
+				p2.set(-l / 2 + (i + 1) * stepl, -w / 2, -h / 2 + j * steph);
+				p3.set(-l / 2 + i * stepl, -w / 2, -h / 2 + (j + 1) * steph);
+				n.set(0, -1, 0);
+				t = new Triangle(p1, p2, p3, n, n, n, c, c, c, n);
+				t.diff.set(diff);
+				t.spec.set(spec);
+				t.shadingType = shadingType;
+				triangles.add(t);
+				
+				// horni trojuhelnik
+				p1.set(-l / 2 + (i + 1) * stepl, -w / 2,
+						-h / 2 + (j + 1) * steph);
+				t = new Triangle(p2, p1, p3, n, n, n, c, c, c, n);
+				t.diff.set(diff);
+				t.spec.set(spec);
+				t.shadingType = shadingType;
+				triangles.add(t);
+				
+				// zadni strana:
+				
+				// spodni trojuhelnik
+				p1.set(-l / 2 + i * stepl, w / 2, -h / 2 + j * steph);
+				p2.set(-l / 2 + (i + 1) * stepl, w / 2, -h / 2 + j * steph);
+				p3.set(-l / 2 + i * stepl, w / 2, -h / 2 + (j + 1) * steph);
+				n.set(0, 1, 0);
+				t = new Triangle(p2, p1, p3, n, n, n, c, c, c, n);
+				t.diff.set(diff);
+				t.spec.set(spec);
+				t.shadingType = shadingType;
+				triangles.add(t);
+				
+				// horni trojuhelnik
+				p1.set(-l / 2 + (i + 1) * stepl, w / 2,
+						-h / 2 + (j + 1) * steph);
+				t = new Triangle(p2, p3, p1, n, n, n, c, c, c, n);
+				t.diff.set(diff);
+				t.spec.set(spec);
+				t.shadingType = shadingType;
+				triangles.add(t);
+			}
+		
+		// prava a leva stena
+		for (int i = 0; i < dw; i++)
+			for (int j = 0; j < dh; j++) {
+				// prava stena:
+				
+				// spodni trojuhelnik
+				p1.set(l / 2, -w / 2 + i * stepw, -h / 2 + j * steph);
+				p2.set(l / 2, -w / 2 + (i + 1) * stepw, -h / 2 + j * steph);
+				p3.set(l / 2, -w / 2 + i * stepw, -h / 2 + (j + 1) * steph);
+				n.set(1, 0, 0);
+				t = new Triangle(p1, p2, p3, n, n, n, c, c, c, n);
+				t.diff.set(diff);
+				t.spec.set(spec);
+				t.shadingType = shadingType;
+				triangles.add(t);
+				
+				// horni trojuhelnik
+				p1.set(l / 2, -w / 2 + (i + 1) * stepw,
+						-h / 2 + (j + 1) * steph);
+				t = new Triangle(p2, p1, p3, n, n, n, c, c, c, n);
+				t.diff.set(diff);
+				t.spec.set(spec);
+				t.shadingType = shadingType;
+				triangles.add(t);
+				
+				// leva stena:
+				
+				// spodni trojuhelnik
+				p1.set(-l / 2, -w / 2 + i * stepw, -h / 2 + j * steph);
+				p2.set(-l / 2, -w / 2 + (i + 1) * stepw, -h / 2 + j * steph);
+				p3.set(-l / 2, -w / 2 + i * stepw, -h / 2 + (j + 1) * steph);
+				n.set(-1, 0, 0);
+				t = new Triangle(p2, p1, p3, n, n, n, c, c, c, n);
+				t.diff.set(diff);
+				t.spec.set(spec);
+				t.shadingType = shadingType;
+				triangles.add(t);
+				
+				// horni trojuhelnik
+				p1.set(-l / 2, -w / 2 + (i + 1) * stepw,
+						-h / 2 + (j + 1) * steph);
+				t = new Triangle(p2, p3, p1, n, n, n, c, c, c, n);
+				t.diff.set(diff);
+				t.spec.set(spec);
+				t.shadingType = shadingType;
+				triangles.add(t);
+			}
+		
+		// horni a spodni stena
+		for (int i = 0; i < dl; i++)
+			for (int j = 0; j < dw; j++) {
+				// horni stena:
+				
+				// spodni trojuhelnik
+				p1.set(-l / 2 + i * stepl, -w / 2 + j * stepw, h / 2);
+				p2.set(-l / 2 + (i + 1) * stepl, -w / 2 + j * stepw, h / 2);
+				p3.set(-l / 2 + i * stepl, -w / 2 + (j + 1) * stepw, h / 2);
+				n.set(0, 0, 1);
+				t = new Triangle(p1, p2, p3, n, n, n, c, c, c, n);
+				t.diff.set(diff);
+				t.spec.set(spec);
+				t.shadingType = shadingType;
+				triangles.add(t);
+				
+				// horni trojuhelnik
+				p1.set(-l / 2 + (i + 1) * stepl, -w / 2 + (j + 1) * stepw,
+						h / 2);
+				t = new Triangle(p2, p1, p3, n, n, n, c, c, c, n);
+				t.diff.set(diff);
+				t.spec.set(spec);
+				t.shadingType = shadingType;
+				triangles.add(t);
+				
+				// spodni stena:
+				
+				// spodni trojuhelnik
+				p1.set(-l / 2 + i * stepl, -w / 2 + j * stepw, -h / 2);
+				p2.set(-l / 2 + (i + 1) * stepl, -w / 2 + j * stepw, -h / 2);
+				p3.set(-l / 2 + i * stepl, -w / 2 + (j + 1) * stepw, -h / 2);
+				n.set(0, 0, -1);
+				t = new Triangle(p2, p1, p3, n, n, n, c, c, c, n);
+				t.diff.set(diff);
+				t.spec.set(spec);
+				t.shadingType = shadingType;
+				triangles.add(t);
+				
+				// horni trojuhelnik
+				p1.set(-l / 2 + (i + 1) * stepl, -w / 2 + (j + 1) * stepw,
+						-h / 2);
+				t = new Triangle(p2, p3, p1, n, n, n, c, c, c, n);
+				t.diff.set(diff);
+				t.spec.set(spec);
+				t.shadingType = shadingType;
+				triangles.add(t);
+			}
+		
+		// provedeni modelovacich transformaci
+		transform();
 	}
 	
 }
