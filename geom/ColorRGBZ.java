@@ -73,7 +73,7 @@ public class ColorRGBZ {
 	}
 	
 	/**
-	 * Vraci cervenou slozku barvy
+	 * Vrati cervenou slozku barvy
 	 * @return Cervena slozka barvy
 	 */
 	public double getR() {
@@ -89,7 +89,7 @@ public class ColorRGBZ {
 	}
 	
 	/**
-	 * Vraci zelenou slozku barvy
+	 * Vrati zelenou slozku barvy
 	 * @return Zelena slozka barvy
 	 */
 	public double getG() {
@@ -105,7 +105,7 @@ public class ColorRGBZ {
 	}
 	
 	/**
-	 * Vraci modrou slozku barvy
+	 * Vrati modrou slozku barvy
 	 * @return Modra slozka barvy
 	 */
 	public double getB() {
@@ -121,7 +121,7 @@ public class ColorRGBZ {
 	}
 	
 	/**
-	 * Vraci souradnici z
+	 * Vrati souradnici z
 	 * @return Souradnice z
 	 */
 	public double getZ() {

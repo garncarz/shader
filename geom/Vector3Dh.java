@@ -187,7 +187,7 @@ public class Vector3Dh {
 	
 	
 	/**
-	 * Vraci skalarni soucin s vektorem
+	 * Vrati skalarni soucin s vektorem
 	 * @param a Vektor
 	 * @return Skalarni soucin
 	 */
@@ -225,7 +225,7 @@ public class Vector3Dh {
 	
 	
 	/**
-	 * Vraci delku vektoru
+	 * Vrati delku vektoru
 	 * @return Delka vektoru
 	 */
 	public double length() {

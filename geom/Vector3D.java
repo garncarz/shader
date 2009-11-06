@@ -40,6 +40,14 @@ public class Vector3D {
 	}
 	
 	/**
+	 * Konstruktor
+	 * @param v Vektor, jehoz hodnoty budou dosazeny
+	 */
+	public Vector3D(Vector3Dh v) {
+		set(v);
+	}
+	
+	/**
 	 * Konstruktor, nulove hodnoty souradnic
 	 */
 	public Vector3D() {
