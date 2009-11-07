@@ -163,4 +163,15 @@ public class ColorRGB {
 		color[2] *= a;
 	}
 	
+	
+	/**
+	 * Vynasobi kazdou slozku barvy odpovidajici slozkou druhe barvy
+	 * @param a Druha barva
+	 */
+	public void mul(ColorRGB a) {
+		color[0] *= a.getR();
+		color[1] *= a.getG();
+		color[2] *= a.getB();
+	}
+	
 }

@@ -10,43 +10,43 @@ public class Triangle {
 	/**
 	 * Vrchol trojuhelniku
 	 */
-	Vector3Dh p1 = new Vector3Dh(),
+	public Vector3Dh p1 = new Vector3Dh(),
 			p2 = new Vector3Dh(),
 			p3 = new Vector3Dh();
 	
 	/**
 	 * Normala ve vrcholu trojuhelniku
 	 */
-	Vector3D n1 = new Vector3D(),
+	public Vector3D n1 = new Vector3D(),
 			n2 = new Vector3D(),
 			n3 = new Vector3D();
 	
 	/**
 	 * Normala plochy trojuhelniku
 	 */
-	Vector3D n = new Vector3D();
+	public Vector3D n = new Vector3D();
 	
 	/**
 	 * Barva ve vrcholu trojuhelniku
 	 */
-	ColorRGB c1 = new ColorRGB(),
+	public ColorRGB c1 = new ColorRGB(),
 			c2 = new ColorRGB(),
 			c3 = new ColorRGB();
 	
 	/**
 	 * Difuzni koeficient odrazu
 	 */
-	ColorRGB diff = new ColorRGB();
+	public ColorRGB diff = new ColorRGB();
 	
 	/**
 	 * Zrcadlovy koeficient odrazu
 	 */
-	ColorRGB spec = new ColorRGB();
+	public ColorRGB spec = new ColorRGB();
 	
 	/**
 	 * Typ stinovani
 	 */
-	ShadingType shadingType;
+	public ShadingType shadingType;
 
 	
 	/**
