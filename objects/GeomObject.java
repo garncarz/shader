@@ -14,34 +14,40 @@ public class GeomObject {
 	/**
 	 * Difuzni koeficient odrazu
 	 */
-	ColorRGB diff;
+	public ColorRGB diff = new ColorRGB();
 	
 	/**
 	 * Zrcadlovy koeficient odrazu
 	 */
-	ColorRGB spec;
+	public ColorRGB spec = new ColorRGB();
 	
 	/**
 	 * Typ stinovani
 	 */
-	ShadingType shadingType;
+	public ShadingType shadingType;
 	
 	/**
 	 * Modelovaci transformace
 	 */
-	Matrix44 modTransf;
+	protected Matrix44 modTransf = new Matrix44();
 	
 	/**
 	 * Seznam trojuhelniku telesa
 	 */
-	ArrayList<Triangle> triangles = new ArrayList<Triangle>();
+	protected ArrayList<Triangle> triangles = new ArrayList<Triangle>();
+	
+	
+	/**
+	 * Trianguluje teleso
+	 */
+	public void triangulate() { }
 	
 	
 	/**
 	 * Modelovaci transformace posunuti
 	 * @param t Vektor o kolik
 	 */
-	void translate(Vector3D t) {
+	public void translate(Vector3D t) {
 		Matrix44 tmp = new Matrix44();
 		tmp.translateTransform(t);
 		modTransf.mul(tmp);
@@ -52,7 +58,7 @@ public class GeomObject {
 	 * Modelovaci transformace zmena meritka
 	 * @param s Vektor zmeny meritka
 	 */
-	void scale(Vector3D s) {
+	public void scale(Vector3D s) {
 		Matrix44 tmp = new Matrix44();
 		tmp.scaleTransform(s);
 		modTransf.mul(tmp);
@@ -63,7 +69,7 @@ public class GeomObject {
 	 * Modelovaci transformace rotace
 	 * @param r Vektor rotace
 	 */
-	void rotate(Vector3D r) {
+	public void rotate(Vector3D r) {
 		Matrix44 tmp = new Matrix44();
 		tmp.rotateTransform(r);
 		modTransf.mul(tmp);
@@ -73,7 +79,7 @@ public class GeomObject {
 	/**
 	 * Realizace modelovaci transformace
 	 */
-	void transform() {
+	public void transform() {
 		Triangle t;
 		Vector3Dh newPoint = new Vector3Dh();
 		Vector3D newNormal = new Vector3D();
