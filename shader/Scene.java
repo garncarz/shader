@@ -156,4 +156,54 @@ public class Scene {
 		// TODO doplnit (my_map_to_DC.cpp)
 	}
 	
+	
+	/**
+	 * Rasterizuje do mapy pixelu
+	 * - rozsviti jednotlive pixely u vsech trojuhelniku sceny
+	 * @param map Mapa pixelu
+	 */
+	public void rasterize(PixelMap map) {
+		Triangle t;
+		Iterator<Triangle> iterator = triangles.iterator();
+		while (iterator.hasNext()) {
+			t = iterator.next();
+			if (t.shadingType == ShadingType.ST_CONST)
+				shadingConst(map, t);
+			else if (t.shadingType == ShadingType.ST_PHONG)
+				shadingPhong(map, t);
+			else
+				shadingGouard(map, t);
+		}
+	}
+	
+	
+	/**
+	 * Konstantne vystinuje dany trojuhelnik do dane mapy pixelu
+	 * @param map Mapa pixelu
+	 * @param t Trojuhelnik
+	 */
+	private void shadingConst(PixelMap map, Triangle t) {
+		// TODO doplnit
+	}
+	
+	
+	/**
+	 * Vystinuje Gouardovou metodou dany trojuhelnik do dane mapy pixelu
+	 * @param map Mapa pixelu
+	 * @param t Trojuhelnik
+	 */
+	private void shadingGouard(PixelMap map, Triangle t) {
+		// TODO doplnit
+	}
+	
+	
+	/**
+	 * Vystinuje Phongovou metodou dany trojuhelnik do dane mapy pixelu
+	 * @param map Mapa pixelu
+	 * @param t Trojuhelnik
+	 */
+	private void shadingPhong(PixelMap map, Triangle t) {
+		// TODO doplnit
+	}
+	
 }
