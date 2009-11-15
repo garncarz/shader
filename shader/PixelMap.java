@@ -52,6 +52,9 @@ public class PixelMap {
 		this.maxColor = maxColor;
 		
 		map = new ColorRGBZ[m][n];
+		for (int i = 0; i < m; i++)
+			for (int j = 0; j < n; j++)
+				map[i][j] = new ColorRGBZ();
 		init(initColor);
 	}
 	
@@ -136,20 +139,34 @@ public class PixelMap {
 	/**
 	 * Ulozi obrazek mapy do souboru
 	 * @param name Nazev souboru
+	 * @throws Exception Chyba ukladani obrazku
 	 */
-	public void writeToBmp(String name) {
+	public void writeToBmp(String name) throws Exception {
+		double factor = 0;
+		if (Definitions.MAX_COLOR > 0)
+			factor = 255 / Definitions.MAX_COLOR;
+		
 		BufferedImage image = new BufferedImage(n, m,
 				BufferedImage.TYPE_INT_RGB);
 		for (int i = 0; i < n; i++)
 			for (int j = 0; j < m; j++) {
-				Color color = new Color((float)map[j][i].getR(),
-						(float)map[j][i].getG(), (float)map[j][i].getZ());
+				ColorRGB c = new ColorRGB(map[j][i]);
+				c.mul(factor);
+				if (c.getR() > 255)
+					c.setR(255);
+				if (c.getG() > 255)
+					c.setG(255);
+				if (c.getB() > 255)
+					c.setB(255);
+				
+				Color color = new Color((float)c.getR(),
+						(float)c.getG(), (float)c.getB());
 				image.setRGB(i, j, color.getRGB());
 			}
 		try {
 			ImageIO.write((RenderedImage)image, "BMP", new File(name));
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new Exception("Chyba pri ukladani obrazku!");
 		}
 	}
 	

@@ -43,7 +43,7 @@ public class Pyramid extends GeomObject {
 	 * Konstruktor
 	 */
 	public Pyramid() {
-		shadingType = ShadingType.ST_GOUARD;
+		shadingType = ShadingType.GOUARD;
 		modTransf.setDiagonal(1);
 	}
 	

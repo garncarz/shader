@@ -98,7 +98,7 @@ public class Triangle {
 		this.c2.set(c2);
 		this.c3.set(c3);
 		this.n.set(n);
-		this.shadingType = ShadingType.ST_GOUARD;
+		this.shadingType = ShadingType.GOUARD;
 		this.diff.set(0, 0, 0);
 	}
 	

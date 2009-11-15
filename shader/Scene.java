@@ -14,22 +14,22 @@ public class Scene {
 	/**
 	 * Kamera sceny
 	 */
-	public Camera cam;
+	public Camera cam = new Camera();
 	
 	/**
 	 * Seznam objektu sceny
 	 */
-	public ArrayList<GeomObject> objects;
+	public ArrayList<GeomObject> objects = new ArrayList<GeomObject>();
 	
 	/**
 	 * Seznam svetel
 	 */
-	public ArrayList<Light> lights;
+	public ArrayList<Light> lights = new ArrayList<Light>();
 	
 	/**
 	 * Seznam trojuhelniku sceny
 	 */
-	public ArrayList<Triangle> triangles;
+	public ArrayList<Triangle> triangles = new ArrayList<Triangle>();
 	
 		
 	/**
@@ -167,9 +167,9 @@ public class Scene {
 		Iterator<Triangle> iterator = triangles.iterator();
 		while (iterator.hasNext()) {
 			t = iterator.next();
-			if (t.shadingType == ShadingType.ST_CONST)
+			if (t.shadingType == ShadingType.CONST)
 				shadingConst(map, t);
-			else if (t.shadingType == ShadingType.ST_PHONG)
+			else if (t.shadingType == ShadingType.PHONG)
 				shadingPhong(map, t);
 			else
 				shadingGouard(map, t);

@@ -12,6 +12,13 @@ public class Shader {
 	 * @param args Argumenty
 	 */
 	public static void main(String[] args) {
+		String inputFilename = "input.xml";
+		if (args.length > 0)
+			inputFilename = args[0];
+		String outputFilename = "output.bmp";
+		if (args.length > 1)
+			outputFilename = args[1];
+		
 		Scene scene = new Scene();
 		ColorRGBZ c = new ColorRGBZ(0, 0, 0, -1 * Definitions.REAL_MAX);
 		PixelMap map = new PixelMap(c, Definitions.MAX_COLOR,
@@ -19,8 +26,15 @@ public class Shader {
 				Definitions.PYMAX - Definitions.PYMIN);
 		
 		System.out.print("Nacitam informace o scene... ");
-		// TODO doplnit nacitani ze souboru
-		System.out.println();
+		try {
+			Loader.load(inputFilename, scene);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			System.exit(1);
+		}
+		System.out.println("OK");
+		System.out.println("\tPocet nactenych teles: " + scene.objects.size());
+		System.out.println("\tPocet nactenych svetel: " + scene.lights.size());
 		
 		System.out.print("Vytvarim kameru... ");
 		scene.cam.create();
@@ -66,8 +80,14 @@ public class Shader {
 		System.out.println("OK");
 		
 		System.out.print("Ukladam mapu do souboru... ");
-		map.writeToBmp("vystup.bmp");
+		try {
+			map.writeToBmp(outputFilename);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			System.exit(1);
+		}
 		System.out.println("OK");
-	}
+		
+	}  // main
 	
 }

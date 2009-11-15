@@ -28,7 +28,7 @@ public class Sphere extends GeomObject {
 	 * Konstruktor
 	 */
 	public Sphere() {
-		shadingType = ShadingType.ST_GOUARD;
+		shadingType = ShadingType.GOUARD;
 		modTransf.setDiagonal(1);
 	}
 	

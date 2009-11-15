@@ -4,8 +4,18 @@ package shader;
  * Typy stinovani
  */
 public enum ShadingType {
-	ST_WIRE,                                         
-    ST_CONST,
-    ST_GOUARD,
-    ST_PHONG
+	/**
+	 * Konstantni stinovani
+	 */
+    CONST,
+    
+    /**
+     * Gouardovo stinovani
+     */
+    GOUARD,
+    
+    /**
+     * Phongovo stinovani
+     */
+    PHONG
 }

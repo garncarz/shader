@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<scene>
+
+	<block
+		x="0" y="-10" z="0"
+		l="5" w="5" h="10"
+		dl="10" dw="10" dh="10"
+		diffR="0" diffG="0.5" diffB="1" diffS="0.8"
+		specR="0" specG="0.5" specB="1" specS="0.8"
+		shading="GOUARD"
+	/>
+	
+	<sphere
+		x="-10" y="0" z="0"
+		radius="5"
+		dh="30" dv="30"
+		diffR="1" diffG="1" diffB="1" diffS="0.8"
+		specR="1" specG="1" specB="1" specS="1"
+		shading="PHONG"
+	/>
+	
+	<cylinder
+		x="0" y="10" z="0"
+		radius="2"
+		height="10"
+		dh="30" dv="30"
+		diffR="1" diffG="0" diffB="0" diffS="0.8"
+		specR="1" specG="0" specB="0" specS="0.8"
+		shading="PHONG"
+	/>
+	
+	<pyramid
+		x="10" y="0" z="-2"
+		l="5" w="5" h="5"
+		dl="10" dw="10" dh="10"
+		diffR="0" diffG="1" diffB="1" diffS="0.8"
+		specR="0" specG="1" specB="1" specS="0.8"
+		shading="GOUARD"
+	/>
+	
+	<cylinder
+		x="0" y="0" z="-5"
+		radius="15"
+		height="3"
+		dh="30" dv="30"
+		diffR="1" diffG="1" diffB="0" diffS="0.8"
+		specR="1" specG="1" specB="0" specS="0.8"
+		shading="GOUARD"
+	/>
+
+</scene>

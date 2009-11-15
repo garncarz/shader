@@ -43,7 +43,7 @@ public class Block extends GeomObject {
 	 * Konstruktor
 	 */
 	public Block() {
-		shadingType = ShadingType.ST_GOUARD;
+		shadingType = ShadingType.GOUARD;
 		modTransf.setDiagonal(1);
 	}
 	

@@ -31,6 +31,14 @@ public class ColorRGB {
 	}
 	
 	/**
+	 * Konstruktor
+	 * @param source Zdrojova barva, jejiz hodnoty budou dosazeny
+	 */
+	public ColorRGB(ColorRGBZ source) {
+		set(source.getR(), source.getB(), source.getB());
+	}
+	
+	/**
 	 * Konstruktor, nulove hodnoty slozek barvy
 	 */
 	public ColorRGB() {
