@@ -2,6 +2,7 @@ package light;
 
 import geom.*;
 import objects.*;
+import shader.Definitions;
 
 /**
  * Svetlo reflektoru

@@ -1,5 +1,6 @@
 package objects;
 
+import shader.ShadingType;
 import geom.*;
 
 /**

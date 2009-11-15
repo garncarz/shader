@@ -1,6 +1,6 @@
 package geom;
 
-import objects.Definitions;
+import shader.Definitions;
 
 /**
  * Matice rozmeru 4 x 4
