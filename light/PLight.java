@@ -26,6 +26,11 @@ public class PLight implements Light {
 	
 	/**
 	 * Konstruktor
+	 */
+	public PLight() { }
+	
+	/**
+	 * Konstruktor
 	 * @param p Pozice svetla
 	 * @param c Barva svetla
 	 * @param a Koeficient utlumu svetla

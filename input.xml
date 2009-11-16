@@ -1,6 +1,57 @@
 <?xml version="1.0"?>
 <scene>
 
+	<camera
+		vrpX="20" vrpY="-5" vrpZ="15"
+		vpnX="20" vpnY="-5" vpnZ="15"
+		vupX="0" vupY="0" vupZ="1"
+		prpX="0" prpY="0" prpZ="1"
+		Umin="-1" Vmin="-1" Umax="1" Vmax="1"
+		front="0.5"
+		back="-60"
+	/>
+	
+	
+	<alight
+		r="1" g="1" b="1" s="0.4"
+	/>
+	
+	<plight
+		x="10" y="10" z="6"
+		r="1" g="1" b="1" s="15"
+		attX="1" attY="0.3" attZ="0.45"
+	/>
+	
+	<plight
+		x="10" y="-10" z="6"
+		r="1" g="1" b="1" s="15"
+		attX="1" attY="0.3" attZ="0.45"
+	/>
+	
+	<plight
+		x="-10" y="-10" z="6"
+		r="1" g="1" b="1" s="15"
+		attX="1" attY="0.3" attZ="0.45"
+	/>
+	
+	<plight
+		x="-10" y="10" z="6"
+		r="1" g="1" b="1" s="15"
+		attX="1" attY="1" attZ="1"
+	/>
+	
+	<!--
+	<rlight
+		x="-10" y="10" z="6"
+		x2="4" y2="4" z2="3"
+		angle="90"
+		r="1" g="1" b="1" s="15"
+		attX="1" attY="1" attZ="1"
+		n="6"
+	/>
+	-->
+	
+
 	<block
 		x="0" y="-10" z="0"
 		l="5" w="5" h="10"

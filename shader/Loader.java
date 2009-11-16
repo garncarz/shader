@@ -23,6 +23,16 @@ import objects.*;
 public class Loader {
 	
 	/**
+	 * Vrati double hodnotu atributu 
+	 * @param att Atribut
+	 * @return Double hodnota obsazena v atributu
+	 */
+	private static double dblVal(Node att) {
+		return Double.valueOf(att.getNodeValue()).doubleValue();
+	}
+	
+	
+	/**
 	 * Zapracuje dany XML uzel obsahujici kvadr do sceny
 	 * @param node XML uzel obsahujici kvadr
 	 * @param scene Scena
@@ -40,18 +50,18 @@ public class Loader {
 			Node att = atts.item(i);
 			
 			if (att.getNodeName() == "x")
-				x = Double.valueOf(att.getNodeValue()).doubleValue();
+				x = dblVal(att);
 			else if (att.getNodeName() == "y")
-				y = Double.valueOf(att.getNodeValue()).doubleValue();
+				y = dblVal(att);
 			else if (att.getNodeName() == "z")
-				z = Double.valueOf(att.getNodeValue()).doubleValue();
+				z = dblVal(att);
 			
 			else if (att.getNodeName() == "l")
-				object.l = Double.valueOf(att.getNodeValue()).doubleValue();
+				object.l = dblVal(att);
 			else if (att.getNodeName() == "w")
-				object.w = Double.valueOf(att.getNodeValue()).doubleValue();
+				object.w = dblVal(att);
 			else if (att.getNodeName() == "h")
-				object.h = Double.valueOf(att.getNodeValue()).doubleValue();
+				object.h = dblVal(att);
 			
 			else if (att.getNodeName() == "dl")
 				object.dl = Integer.valueOf(att.getNodeValue()).intValue();
@@ -61,22 +71,22 @@ public class Loader {
 				object.dh = Integer.valueOf(att.getNodeValue()).intValue();
 			
 			else if (att.getNodeName() == "diffR")
-				diffR = Double.valueOf(att.getNodeValue()).doubleValue();
+				diffR = dblVal(att);
 			else if (att.getNodeName() == "diffG")
-				diffG = Double.valueOf(att.getNodeValue()).doubleValue();
+				diffG = dblVal(att);
 			else if (att.getNodeName() == "diffB")
-				diffB = Double.valueOf(att.getNodeValue()).doubleValue();
+				diffB = dblVal(att);
 			else if (att.getNodeName() == "diffS")
-				diffS = Double.valueOf(att.getNodeValue()).doubleValue();
+				diffS = dblVal(att);
 			
 			else if (att.getNodeName() == "specR")
-				specR = Double.valueOf(att.getNodeValue()).doubleValue();
+				specR = dblVal(att);
 			else if (att.getNodeName() == "specG")
-				specG = Double.valueOf(att.getNodeValue()).doubleValue();
+				specG = dblVal(att);
 			else if (att.getNodeName() == "specB")
-				specB = Double.valueOf(att.getNodeValue()).doubleValue();
+				specB = dblVal(att);
 			else if (att.getNodeName() == "specS")
-				specS = Double.valueOf(att.getNodeValue()).doubleValue();
+				specS = dblVal(att);
 			
 			else if (att.getNodeName() == "shading")
 				object.shadingType = ShadingType.valueOf(att.getNodeValue());
@@ -112,14 +122,14 @@ public class Loader {
 			Node att = atts.item(i);
 			
 			if (att.getNodeName() == "x")
-				x = Double.valueOf(att.getNodeValue()).doubleValue();
+				x = dblVal(att);
 			else if (att.getNodeName() == "y")
-				y = Double.valueOf(att.getNodeValue()).doubleValue();
+				y = dblVal(att);
 			else if (att.getNodeName() == "z")
-				z = Double.valueOf(att.getNodeValue()).doubleValue();
+				z = dblVal(att);
 			
 			else if (att.getNodeName() == "radius")
-				object.radius = Double.valueOf(att.getNodeValue()).doubleValue();
+				object.radius = dblVal(att);
 			
 			else if (att.getNodeName() == "dh")
 				object.dh = Integer.valueOf(att.getNodeValue()).intValue();
@@ -127,22 +137,22 @@ public class Loader {
 				object.dv = Integer.valueOf(att.getNodeValue()).intValue();
 			
 			else if (att.getNodeName() == "diffR")
-				diffR = Double.valueOf(att.getNodeValue()).doubleValue();
+				diffR = dblVal(att);
 			else if (att.getNodeName() == "diffG")
-				diffG = Double.valueOf(att.getNodeValue()).doubleValue();
+				diffG = dblVal(att);
 			else if (att.getNodeName() == "diffB")
-				diffB = Double.valueOf(att.getNodeValue()).doubleValue();
+				diffB = dblVal(att);
 			else if (att.getNodeName() == "diffS")
-				diffS = Double.valueOf(att.getNodeValue()).doubleValue();
+				diffS = dblVal(att);
 			
 			else if (att.getNodeName() == "specR")
-				specR = Double.valueOf(att.getNodeValue()).doubleValue();
+				specR = dblVal(att);
 			else if (att.getNodeName() == "specG")
-				specG = Double.valueOf(att.getNodeValue()).doubleValue();
+				specG = dblVal(att);
 			else if (att.getNodeName() == "specB")
-				specB = Double.valueOf(att.getNodeValue()).doubleValue();
+				specB = dblVal(att);
 			else if (att.getNodeName() == "specS")
-				specS = Double.valueOf(att.getNodeValue()).doubleValue();
+				specS = dblVal(att);
 			
 			else if (att.getNodeName() == "shading")
 				object.shadingType = ShadingType.valueOf(att.getNodeValue());
@@ -178,16 +188,16 @@ public class Loader {
 			Node att = atts.item(i);
 			
 			if (att.getNodeName() == "x")
-				x = Double.valueOf(att.getNodeValue()).doubleValue();
+				x = dblVal(att);
 			else if (att.getNodeName() == "y")
-				y = Double.valueOf(att.getNodeValue()).doubleValue();
+				y = dblVal(att);
 			else if (att.getNodeName() == "z")
-				z = Double.valueOf(att.getNodeValue()).doubleValue();
+				z = dblVal(att);
 			
 			else if (att.getNodeName() == "radius")
-				object.radius = Double.valueOf(att.getNodeValue()).doubleValue();
+				object.radius = dblVal(att);
 			else if (att.getNodeName() == "height")
-				object.height = Double.valueOf(att.getNodeValue()).doubleValue();
+				object.height = dblVal(att);
 			
 			else if (att.getNodeName() == "dh")
 				object.dh = Integer.valueOf(att.getNodeValue()).intValue();
@@ -195,22 +205,22 @@ public class Loader {
 				object.dv = Integer.valueOf(att.getNodeValue()).intValue();
 			
 			else if (att.getNodeName() == "diffR")
-				diffR = Double.valueOf(att.getNodeValue()).doubleValue();
+				diffR = dblVal(att);
 			else if (att.getNodeName() == "diffG")
-				diffG = Double.valueOf(att.getNodeValue()).doubleValue();
+				diffG = dblVal(att);
 			else if (att.getNodeName() == "diffB")
-				diffB = Double.valueOf(att.getNodeValue()).doubleValue();
+				diffB = dblVal(att);
 			else if (att.getNodeName() == "diffS")
-				diffS = Double.valueOf(att.getNodeValue()).doubleValue();
+				diffS = dblVal(att);
 			
 			else if (att.getNodeName() == "specR")
-				specR = Double.valueOf(att.getNodeValue()).doubleValue();
+				specR = dblVal(att);
 			else if (att.getNodeName() == "specG")
-				specG = Double.valueOf(att.getNodeValue()).doubleValue();
+				specG = dblVal(att);
 			else if (att.getNodeName() == "specB")
-				specB = Double.valueOf(att.getNodeValue()).doubleValue();
+				specB = dblVal(att);
 			else if (att.getNodeName() == "specS")
-				specS = Double.valueOf(att.getNodeValue()).doubleValue();
+				specS = dblVal(att);
 			
 			else if (att.getNodeName() == "shading")
 				object.shadingType = ShadingType.valueOf(att.getNodeValue());
@@ -246,18 +256,18 @@ public class Loader {
 			Node att = atts.item(i);
 			
 			if (att.getNodeName() == "x")
-				x = Double.valueOf(att.getNodeValue()).doubleValue();
+				x = dblVal(att);
 			else if (att.getNodeName() == "y")
-				y = Double.valueOf(att.getNodeValue()).doubleValue();
+				y = dblVal(att);
 			else if (att.getNodeName() == "z")
-				z = Double.valueOf(att.getNodeValue()).doubleValue();
+				z = dblVal(att);
 			
 			else if (att.getNodeName() == "l")
-				object.l = Double.valueOf(att.getNodeValue()).doubleValue();
+				object.l = dblVal(att);
 			else if (att.getNodeName() == "w")
-				object.w = Double.valueOf(att.getNodeValue()).doubleValue();
+				object.w = dblVal(att);
 			else if (att.getNodeName() == "h")
-				object.h = Double.valueOf(att.getNodeValue()).doubleValue();
+				object.h = dblVal(att);
 			
 			else if (att.getNodeName() == "dl")
 				object.dl = Integer.valueOf(att.getNodeValue()).intValue();
@@ -267,22 +277,22 @@ public class Loader {
 				object.dh = Integer.valueOf(att.getNodeValue()).intValue();
 			
 			else if (att.getNodeName() == "diffR")
-				diffR = Double.valueOf(att.getNodeValue()).doubleValue();
+				diffR = dblVal(att);
 			else if (att.getNodeName() == "diffG")
-				diffG = Double.valueOf(att.getNodeValue()).doubleValue();
+				diffG = dblVal(att);
 			else if (att.getNodeName() == "diffB")
-				diffB = Double.valueOf(att.getNodeValue()).doubleValue();
+				diffB = dblVal(att);
 			else if (att.getNodeName() == "diffS")
-				diffS = Double.valueOf(att.getNodeValue()).doubleValue();
+				diffS = dblVal(att);
 			
 			else if (att.getNodeName() == "specR")
-				specR = Double.valueOf(att.getNodeValue()).doubleValue();
+				specR = dblVal(att);
 			else if (att.getNodeName() == "specG")
-				specG = Double.valueOf(att.getNodeValue()).doubleValue();
+				specG = dblVal(att);
 			else if (att.getNodeName() == "specB")
-				specB = Double.valueOf(att.getNodeValue()).doubleValue();
+				specB = dblVal(att);
 			else if (att.getNodeName() == "specS")
-				specS = Double.valueOf(att.getNodeValue()).doubleValue();
+				specS = dblVal(att);
 			
 			else if (att.getNodeName() == "shading")
 				object.shadingType = ShadingType.valueOf(att.getNodeValue());
@@ -301,6 +311,224 @@ public class Loader {
 	
 	
 	/**
+	 * Zapracuje dany XML uzel obsahujici kameru do sceny
+	 * @param node XML uzel obsahujici kameru
+	 * @param scene Scena
+	 */
+	private static void processCameraNode(Node node, Scene scene) {
+		Camera cam = scene.cam;
+		
+		NamedNodeMap atts = node.getAttributes();
+		for (int i = 0; i < atts.getLength(); i++) {
+			Node att = atts.item(i);
+			
+			if (att.getNodeName() == "vrpX")
+				cam.VRP.setX(dblVal(att));
+			else if (att.getNodeName() == "vrpY")
+				cam.VRP.setY(dblVal(att));
+			else if (att.getNodeName() == "vrpZ")
+				cam.VRP.setZ(dblVal(att));
+			
+			else if (att.getNodeName() == "vpnX")
+				cam.VPN.setX(dblVal(att));
+			else if (att.getNodeName() == "vpnY")
+				cam.VPN.setY(dblVal(att));
+			else if (att.getNodeName() == "vpnZ")
+				cam.VPN.setZ(dblVal(att));
+			
+			else if (att.getNodeName() == "vupX")
+				cam.VUP.setX(dblVal(att));
+			else if (att.getNodeName() == "vupY")
+				cam.VUP.setY(dblVal(att));
+			else if (att.getNodeName() == "vupZ")
+				cam.VUP.setZ(dblVal(att));
+			
+			else if (att.getNodeName() == "prpX")
+				cam.PRP.setX(dblVal(att));
+			else if (att.getNodeName() == "prpY")
+				cam.PRP.setY(dblVal(att));
+			else if (att.getNodeName() == "prpZ")
+				cam.PRP.setZ(dblVal(att));
+			
+			else if (att.getNodeName() == "Umin")
+				cam.setUmin(dblVal(att));
+			else if (att.getNodeName() == "Umax")
+				cam.setUmax(dblVal(att));
+			else if (att.getNodeName() == "Vmin")
+				cam.setVmin(dblVal(att));
+			else if (att.getNodeName() == "Vmax")
+				cam.setVmax(dblVal(att));
+			
+			else if (att.getNodeName() == "front")
+				cam.setF(dblVal(att));
+			else if (att.getNodeName() == "back")
+				cam.setB(dblVal(att));
+		}
+		
+	}  // processCameraNode
+	
+	
+	/**
+	 * Zapracuje dany XML uzel obsahujici ambientni svetlo do sceny
+	 * @param node XML uzel obsahujici ambientni svetlo
+	 * @param scene Scena
+	 */
+	private static void processALightNode(Node node, Scene scene) {
+		ALight light = new ALight();
+		scene.lights.add(light);
+		
+		double r = 0, g = 0, b = 0, s = 1;
+		
+		NamedNodeMap atts = node.getAttributes();
+		for (int i = 0; i < atts.getLength(); i++) {
+			Node att = atts.item(i);
+			
+			if (att.getNodeName() == "r")
+				r = dblVal(att);
+			else if (att.getNodeName() == "g")
+				g = dblVal(att);
+			else if (att.getNodeName() == "b")
+				b = dblVal(att);
+			else if (att.getNodeName() == "s")
+				s = dblVal(att);
+		}
+		
+		ColorRGB c = new ColorRGB(r, g, b);
+		c.mul(s);
+		light.setC(c);
+	}  // processALightNode
+	
+	
+	/**
+	 * Zapracuje dany XML uzel obsahujici bodove svetlo do sceny
+	 * @param node XML uzel obsahujici bodove svetlo
+	 * @param scene Scena
+	 */
+	private static void processPLightNode(Node node, Scene scene) {
+		PLight light = new PLight();
+		scene.lights.add(light);
+		
+		double x = 0, y = 0, z = 0;
+		double r = 0, g = 0, b = 0, s = 1;
+		double attX = 0, attY = 0, attZ = 0;
+		
+		NamedNodeMap atts = node.getAttributes();
+		for (int i = 0; i < atts.getLength(); i++) {
+			Node att = atts.item(i);
+			
+			if (att.getNodeName() == "x")
+				x = dblVal(att);
+			else if (att.getNodeName() == "y")
+				y = dblVal(att);
+			else if (att.getNodeName() == "z")
+				z = dblVal(att);
+			
+			else if (att.getNodeName() == "r")
+				r = dblVal(att);
+			else if (att.getNodeName() == "g")
+				g = dblVal(att);
+			else if (att.getNodeName() == "b")
+				b = dblVal(att);
+			else if (att.getNodeName() == "s")
+				s = dblVal(att);
+			
+			else if (att.getNodeName() == "attX")
+				attX = dblVal(att);
+			else if (att.getNodeName() == "attY")
+				attY = dblVal(att);
+			else if (att.getNodeName() == "attZ")
+				attZ = dblVal(att);
+		}
+		
+		Vector3D v = new Vector3D(x, y, z);
+		light.setP(v);
+		
+		ColorRGB c = new ColorRGB(r, g, b);
+		c.mul(s);
+		light.setC(c);
+		
+		v = new Vector3D(attX, attY, attZ);
+		light.setA(v);
+	}  // processPLightNode
+	
+	
+	/**
+	 * Zapracuje dany XML uzel obsahujici reflektorove svetlo do sceny
+	 * @param node XML uzel obsahujici reflektorove svetlo
+	 * @param scene Scena
+	 */
+	private static void processRLightNode(Node node, Scene scene) {
+		RLight light = new RLight();
+		scene.lights.add(light);
+		
+		double x = 0, y = 0, z = 0;
+		double x2 = 0, y2 = 0, z2 = 0;
+		double angle = 0;
+		double r = 0, g = 0, b = 0, s = 1;
+		double attX = 0, attY = 0, attZ = 0;
+		double n = 0;
+		
+		NamedNodeMap atts = node.getAttributes();
+		for (int i = 0; i < atts.getLength(); i++) {
+			Node att = atts.item(i);
+			
+			if (att.getNodeName() == "x")
+				x = dblVal(att);
+			else if (att.getNodeName() == "y")
+				y = dblVal(att);
+			else if (att.getNodeName() == "z")
+				z = dblVal(att);
+			
+			else if (att.getNodeName() == "x2")
+				x2 = dblVal(att);
+			else if (att.getNodeName() == "y2")
+				y2 = dblVal(att);
+			else if (att.getNodeName() == "z2")
+				z2 = dblVal(att);
+			
+			else if (att.getNodeName() == "angle")
+				angle = dblVal(att);
+			
+			else if (att.getNodeName() == "r")
+				r = dblVal(att);
+			else if (att.getNodeName() == "g")
+				g = dblVal(att);
+			else if (att.getNodeName() == "b")
+				b = dblVal(att);
+			else if (att.getNodeName() == "s")
+				s = dblVal(att);
+			
+			else if (att.getNodeName() == "attX")
+				attX = dblVal(att);
+			else if (att.getNodeName() == "attY")
+				attY = dblVal(att);
+			else if (att.getNodeName() == "attZ")
+				attZ = dblVal(att);
+			
+			else if (att.getNodeName() == "n")
+				n = dblVal(att);
+		}
+		
+		Vector3D v = new Vector3D(x, y, z);
+		light.setP(v);
+		
+		v = new Vector3D(x2, y2, z2);
+		light.setP2(v);
+		
+		light.setY(angle);
+		
+		ColorRGB c = new ColorRGB(r, g, b);
+		c.mul(s);
+		light.setC(c);
+		
+		v = new Vector3D(attX, attY, attZ);
+		light.setA(v);
+		
+		light.setN(n);
+	}  // processRLightNode
+	
+	
+	/**
 	 * Zapracuje dany XML uzel do sceny
 	 * @param node XML uzel
 	 * @param scene Scena
@@ -314,12 +542,23 @@ public class Loader {
 			processCylinderNode(node, scene);
 		else if (node.getNodeName() == "pyramid")
 			processPyramidNode(node, scene);
+		
+		else if (node.getNodeName() == "alight")
+			processALightNode(node, scene);
+		else if (node.getNodeName() == "plight")
+			processPLightNode(node, scene);
+		else if (node.getNodeName() == "rlight")
+			processRLightNode(node, scene);
+		
+		else if (node.getNodeName() == "camera")
+			processCameraNode(node, scene);
 	}
 	
 	/**
 	 * Doplni scenu daty ze souboru 
 	 * @param file Soubor
 	 * @param scene Scena
+	 * @throws Exception Chyba nacitani ci parsovani
 	 */
 	public static void load(String filename, Scene scene) throws Exception {
 		try {
@@ -338,7 +577,6 @@ public class Loader {
 		} catch (ParserConfigurationException e) {
 			throw new Exception("Chyba XML!");
 		}
-		
 	}
 	
 }

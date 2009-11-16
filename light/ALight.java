@@ -16,6 +16,11 @@ public class ALight implements Light {
 	
 	/**
 	 * Konstruktor
+	 */
+	public ALight() { }
+	
+	/**
+	 * Konstruktor
 	 * @param c Barva svetla
 	 */
 	public ALight(ColorRGB c) {

@@ -10,27 +10,27 @@ public class Camera {
 	/**
 	 * View Reference Point
 	 */
-	private Vector3D VRP = new Vector3D();
+	public Vector3D VRP = new Vector3D();
 	
 	/**
 	 * View Plane Normal
 	 */
-	private Vector3D VPN = new Vector3D();
+	public Vector3D VPN = new Vector3D();
 	
 	/**
 	 * View Up Vector
 	 */
-	private Vector3D VUP = new Vector3D();
+	public Vector3D VUP = new Vector3D();
 	
 	/**
 	 * Projection Reference Point
 	 */
-	private Vector3D PRP = new Vector3D();
+	public Vector3D PRP = new Vector3D();
 	
 	/**
 	 * Definice zorneho jehlanu
 	 */
-	private double Umin, Umax, Vmin, Vmax;
+	public double Umin, Umax, Vmin, Vmax;
 	
 	/**
 	 * Predni orezavaci plocha

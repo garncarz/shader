@@ -42,6 +42,11 @@ public class RLight implements Light {
 	
 	/**
 	 * Konstruktor
+	 */
+	public RLight() { }
+	
+	/**
+	 * Konstruktor
 	 * @param p Pozice svetla
 	 * @param p2 Osvetlovany bod
 	 * @param y Uhel rozevreni kuzele
