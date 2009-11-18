@@ -26,6 +26,15 @@ public class ColorRGBZ {
 	/**
 	 * Konstruktor
 	 * @param source Zdrojova barva, jejiz hodnoty budou dosazeny
+	 * @param z Souradnice z
+	 */
+	public ColorRGBZ(ColorRGB source, double z) {
+		set(source.getR(), source.getG(), source.getB(), z);
+	}
+	
+	/**
+	 * Konstruktor
+	 * @param source Zdrojova barva, jejiz hodnoty budou dosazeny
 	 */
 	public ColorRGBZ(ColorRGBZ source) {
 		set(source);

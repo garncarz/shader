@@ -87,6 +87,14 @@ public class PixelMap {
 	public void setPixel(int i, int j, ColorRGBZ c) {
 		if (i >= 0 && i < m && j >= 0 && j < n)
 			map[i][j].set(c);
+		
+		// pripadna korekce
+		if (map[i][j].getR() > 1)
+			map[i][j].setR(1);
+		if (map[i][j].getG() > 1)
+			map[i][j].setG(1);
+		if (map[i][j].getB() > 1)
+			map[i][j].setB(1);
 	}
 	
 	/**
@@ -142,23 +150,11 @@ public class PixelMap {
 	 * @throws Exception Chyba ukladani obrazku
 	 */
 	public void writeToBmp(String name) throws Exception {
-		double factor = 0;
-		if (Definitions.MAX_COLOR > 0)
-			factor = 255 / Definitions.MAX_COLOR;
-		
 		BufferedImage image = new BufferedImage(n, m,
 				BufferedImage.TYPE_INT_RGB);
 		for (int i = 0; i < n; i++)
 			for (int j = 0; j < m; j++) {
 				ColorRGB c = new ColorRGB(map[j][i]);
-				c.mul(factor);
-				if (c.getR() > 255)
-					c.setR(255);
-				if (c.getG() > 255)
-					c.setG(255);
-				if (c.getB() > 255)
-					c.setB(255);
-				
 				Color color = new Color((float)c.getR(),
 						(float)c.getG(), (float)c.getB());
 				image.setRGB(i, j, color.getRGB());

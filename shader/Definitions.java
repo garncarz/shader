@@ -16,6 +16,7 @@ public class Definitions {
 	 */
 	public static final double REAL_MAX = Double.MAX_VALUE;
 	
+	// TODO zrejme smazat
 	/**
 	 * Maximalni hodnota barvy
 	 */

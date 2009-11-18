@@ -264,7 +264,7 @@ public class Scene {
 		// orezavaci roviny
 		double planes[][] = new double[][]{
 				{ 1, 0, 0, -1},
-				{-1, 0, 0, -0.5},
+				{-1, 0, 0, -1},
 				{0, -1, 0, -1},
 				{0,  1, 0, -1},
 				{0, 0,  1, 0},
@@ -317,7 +317,7 @@ public class Scene {
 							t.p2, t.n2, t.c2, t.diff, t.spec);
 				
 				// odstraneni puvodniho trojuhelniku, ktery vycuhoval
-				iterator.remove();
+				// iterator.remove();
 			}
 		}
 	}  // clipping
@@ -386,9 +386,86 @@ public class Scene {
 			else
 				shadingGouard(map, t);
 			*/
-			shadingConst(map, t);
+			shadingWire(map, t);
 		}
 	}
+	
+	
+	/**
+	 * Obrysove vystinuje dany trojuhelnik do dane mapy pixelu
+	 * @param map Mapa pixelu
+	 * @param t Trojuhelnik
+	 */
+	private void shadingWire(PixelMap map, Triangle t) {
+		Vector3D pA = new Vector3D(t.p1),
+				pB = new Vector3D(t.p2),
+				pC = new Vector3D(t.p3),
+				pTmp = new Vector3D(),
+				dir = new Vector3D(),
+				v = new Vector3D();
+		ColorRGBZ cA = new ColorRGBZ(t.c1, t.p1.getZ()),
+				cB = new ColorRGBZ(t.c2, t.p2.getZ()),
+				cC = new ColorRGBZ(t.c3, t.p3.getZ()),
+				cTmp = new ColorRGBZ(),
+				cDir = new ColorRGBZ(),
+				c = new ColorRGBZ();
+		int parts;
+		
+		// setrideni podle y:
+		if (pA.getY() > pB.getY()) {
+			pTmp.set(pA); pA.set(pB); pB.set(pTmp);
+			cTmp.set(cA); cA.set(cB); cB.set(cTmp);
+		}
+		if (pA.getY() > pC.getY()) {
+			pTmp.set(pA); pA.set(pC); pC.set(pTmp);
+			cTmp.set(cA); cA.set(cC); cC.set(cTmp);
+		}
+		
+		// setrideni podle x
+		if (pB.getX() > pB.getX()) {
+			pTmp.set(pB); pB.set(pC); pC.set(pTmp);
+			cTmp.set(cB); cB.set(cC); cC.set(cTmp);
+		}
+		
+		// od A k B:
+		parts = (int)Math.abs(pB.getY() - pA.getY());
+		dir.set(pB); dir.sub(pA); v.set(pA);
+		dir.mul(1.0 / parts);
+		
+		cDir.set(cB); cDir.sub(cA); c.set(cA);
+		cDir.mul(1.0 / parts);
+		
+		for (int i = 0; i < parts; i++) {
+			v.add(dir); c.add(cDir);
+			map.setPixel((int)v.getX(), (int)v.getY(), c);
+		}
+		
+		// od B k C:
+		parts = (int)Math.abs(pC.getY() - pB.getY());
+		dir.set(pC); dir.sub(pB); v.set(pB);
+		dir.mul(1.0 / parts);
+		
+		cDir.set(cC); cDir.sub(cB); c.set(cB);
+		cDir.mul(1.0 / parts);
+		
+		for (int i = 0; i < parts; i++) {
+			v.add(dir); c.add(cDir);
+			map.setPixel((int)v.getX(), (int)v.getY(), c);
+		}
+		
+		// od A k C:
+		parts = (int)Math.abs(pC.getY() - pA.getY());
+		dir.set(pC); dir.sub(pA); v.set(pA);
+		dir.mul(1.0 / parts);
+		
+		cDir.set(cC); cDir.sub(cA); c.set(cA);
+		cDir.mul(1.0 / parts);
+		
+		for (int i = 0; i < parts; i++) {
+			v.add(dir); c.add(cDir);
+			map.setPixel((int)v.getX(), (int)v.getY(), c);
+		}
+	}  // shadingWire
 	
 	
 	/**
@@ -397,9 +474,7 @@ public class Scene {
 	 * @param t Trojuhelnik
 	 */
 	private void shadingConst(PixelMap map, Triangle t) {
-		for (int i = 0; i < 100; i++)
-			for (int j = 0; j < 100; j++)
-				map.setPixel(i, j, new ColorRGBZ(1, 1, 1, -1));
+		// TODO doplnit
 	}
 	
 	
