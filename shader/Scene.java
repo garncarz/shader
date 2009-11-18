@@ -116,16 +116,211 @@ public class Scene {
 	 * Pouzije zobrazovaci transformace
 	 */
 	public void viewingTransform() {
-		// TODO doplnit (my_viewing_transf.cpp)
+		Triangle t;
+		Iterator<Triangle> iterator = triangles.iterator();
+		while(iterator.hasNext()) {
+			t = iterator.next();
+			
+			t.p1.mul(cam.getM());
+			t.p2.mul(cam.getM());
+			t.p3.mul(cam.getM());
+		}
 	}
+	
+	
+	/**
+	 * Prida do seznamu trojuhelniku dva nove trojuhelniky vznikle
+	 * orezanim prvniho vrcholu trojuhelniku daneho argumenty danou rovinou
+	 * @param plane Orezavaci rovina
+	 * @param p1 Prvni vrchol
+	 * @param n1 Normala prvniho vrcholu
+	 * @param c1 Barva prvniho vrcholu
+	 * @param p2 Druhy vrchol
+	 * @param n2 Normala druheho vrcholu
+	 * @param c2 Barva druheho vrcholu
+	 * @param p3 Treti vrchol
+	 * @param n3 Normala tretiho vrcholu
+	 * @param c3 Barva tretiho vrcholu
+	 * @param diff Difuzni koeficient odrazu
+	 * @param spec Zrcadlovy koeficient odrazu
+	 */
+	private void clipOnePoint(Vector3Dh plane,
+			Vector3Dh p1, Vector3D n1, ColorRGB c1,
+			Vector3Dh p2, Vector3D n2, ColorRGB c2,
+			Vector3Dh p3, Vector3D n3, ColorRGB c3,
+			ColorRGB diff, ColorRGB spec) {
+		Vector3Dh p12 = new Vector3Dh(),
+				p13 = new Vector3Dh(),
+				tmp = new Vector3Dh();
+		Vector3D n12 = new Vector3D(),
+				n13 = new Vector3D(),
+				a = new Vector3D(),
+				b = new Vector3D();
+		ColorRGB c12 = new ColorRGB(),
+				c13 = new ColorRGB();
+		Triangle t1 = new Triangle(),
+				t2 = new Triangle();
+		double part;
+		
+		tmp.set(p1); tmp.sub(p2);
+		part = plane.dot(p1) / plane.dot(tmp);
+		p12.set(p2); p12.sub(p1); p12.mul(part); p12.add(p1);
+		n12.set(n2); n12.sub(n1); n12.mul(part); n12.add(n1);
+		c12.set(c2); c12.sub(c1); c12.mul(part); c12.add(c1);
+		
+		t1.p1.set(p12); t1.n1.set(n12); t1.c1.set(c12);
+		t1.p2.set(p2); t1.n2.set(n2); t1.c2.set(c2);
+		t1.p3.set(p3); t1.n3.set(n3); t1.c3.set(c3);
+		t1.diff.set(diff); t1.spec.set(spec);
+		
+		a.set(t1.p2); a.sub(t1.p1);
+		b.set(t1.p3); b.sub(t1.p1);
+		t1.n.set(a); t1.n.cross(b); t1.n.normalize();
+		
+		triangles.add(t1);
+		
+		
+		tmp.set(p1); tmp.sub(p3);
+		part = plane.dot(p1) / plane.dot(tmp);
+		p13.set(p3); p13.sub(p1); p13.mul(part); p13.add(p1);
+		n13.set(n3); n13.sub(n1); n13.mul(part); n13.add(n1);
+		c13.set(c3); c13.sub(c1); c13.mul(part); c13.add(c1);
+		
+		t2.p1.set(p12); t2.n1.set(n12); t2.c1.set(c12);
+		t2.p2.set(p3); t2.n2.set(n3); t2.c2.set(c3);
+		t2.p3.set(p13); t2.n3.set(n13); t2.c3.set(c13);
+		t2.diff.set(diff); t2.spec.set(spec);
+		
+		a.set(t2.p2); a.sub(t2.p1);
+		b.set(t2.p3); b.sub(t2.p1);
+		t2.n.set(a); t2.n.cross(b); t2.n.normalize();
+		
+		triangles.add(t2);
+	}  // clipOnePoint
+	
+	
+	/**
+	 * Prida do seznamu trojuhelniku novy trojuhelnik vznikly orezanim
+	 * druheho a tretiho vrcholu trojuhelniku daneho argumenty danou rovinou
+	 * @param plane Orezavaci rovina
+	 * @param p1 Prvni vrchol
+	 * @param n1 Normala prvniho vrcholu
+	 * @param c1 Barva prvniho vrcholu
+	 * @param p2 Druhy vrchol
+	 * @param n2 Normala druheho vrcholu
+	 * @param c2 Barva druheho vrcholu
+	 * @param p3 Treti vrchol
+	 * @param n3 Normala tretiho vrcholu
+	 * @param c3 Barva tretiho vrcholu
+	 * @param diff Difuzni koeficient odrazu
+	 * @param spec Zrcadlovy koeficient odrazu
+	 */
+	private void clipTwoPoints(Vector3Dh plane,
+			Vector3Dh p1, Vector3D n1, ColorRGB c1,
+			Vector3Dh p2, Vector3D n2, ColorRGB c2,
+			Vector3Dh p3, Vector3D n3, ColorRGB c3,
+			ColorRGB diff, ColorRGB spec) {
+		Vector3Dh p12 = new Vector3Dh(),
+				p13 = new Vector3Dh(),
+				tmp = new Vector3Dh();
+		Vector3D n12 = new Vector3D(),
+				n13 = new Vector3D(),
+				a = new Vector3D(),
+				b = new Vector3D();
+		ColorRGB c12 = new ColorRGB(),
+				c13 = new ColorRGB();
+		Triangle t = new Triangle();
+		double part;
+		
+		tmp.set(p1); tmp.sub(p2);
+		part = plane.dot(p1) / plane.dot(tmp);
+		p12.set(p2); p12.sub(p1); p12.mul(part); p12.add(p1);
+		n12.set(n2); n12.sub(n1); n12.mul(part); n12.add(n1);
+		c12.set(c2); c12.sub(c1); c12.mul(part); c12.add(c1);
+		
+		tmp.set(p1); tmp.sub(p3);
+		part = plane.dot(p1) / plane.dot(tmp);
+		p13.set(p3); p13.sub(p1); p13.mul(part); p13.add(p1);
+		n13.set(n3); n13.sub(n1); n13.mul(part); n13.add(n1);
+		c13.set(c3); c13.sub(c1); c13.mul(part); c13.add(c1);
+		
+		t.p1.set(p13); t.n1.set(n13); t.c1.set(c13);
+		t.p2.set(p1); t.n2.set(n1); t.c2.set(c1);
+		t.p3.set(p12); t.n3.set(n12); t.c3.set(c12);
+		t.diff.set(diff); t.spec.set(spec);
+		
+		a.set(t.p2); a.sub(t.p1);
+		b.set(t.p3); b.sub(t.p1);
+		t.n.set(a); t.n.cross(b); t.n.normalize();
+		
+		triangles.add(t);
+	}  // clipTwoPoints
 	
 	
 	/**
 	 * Oreze zornym hranolem
 	 */
 	public void clipping() {
-		// TODO doplnit (my_clipping.cpp)
-	}
+		// orezavaci roviny
+		double planes[][] = new double[][]{
+				{ 1, 0, 0, -1},
+				{-1, 0, 0, -0.5},
+				{0, -1, 0, -1},
+				{0,  1, 0, -1},
+				{0, 0,  1, 0},
+				{0, 0, -1, -1}
+		};
+		
+		Triangle t;
+		for (int iplane = 0; iplane < 6; iplane++) {
+			Vector3Dh plane = new Vector3Dh(planes[iplane][0],
+					planes[iplane][1],
+					planes[iplane][2],
+					planes[iplane][3]);
+			
+			Iterator<Triangle> iterator = triangles.iterator();
+			while (iterator.hasNext()) {
+				t = iterator.next();
+				
+				// vsechny body trojuhelniku uvnitr
+				if (t.p1.dot(plane) <= 0
+						&& t.p2.dot(plane) <= 0
+						&& t.p3.dot(plane) <= 0)
+					continue;
+				
+				// vsechny tri body mimo
+				else if (t.p1.dot(plane) > 0
+						&& t.p2.dot(plane) > 0
+						&& t.p3.dot(plane) > 0)
+					;
+				
+				// dva body mimo
+				else if (t.p1.dot(plane) > 0 && t.p2.dot(plane) > 0)
+					clipTwoPoints(plane, t.p3, t.n3, t.c3, t.p1, t.n1, t.c1,
+							t.p2, t.n2, t.c2, t.diff, t.spec);
+				else if (t.p1.dot(plane) > 0 && t.p3.dot(plane) > 0)
+					clipTwoPoints(plane, t.p2, t.n2, t.c2, t.p3, t.n3, t.c3,
+							t.p1, t.n1, t.c1, t.diff, t.spec);
+				else if (t.p2.dot(plane) > 0 && t.p3.dot(plane) > 0)
+					clipTwoPoints(plane, t.p1, t.n1, t.c1, t.p2, t.n2, t.c2,
+							t.p3, t.n3, t.c3, t.diff, t.spec);
+				
+				// jeden bod mimo
+				else if (t.p1.dot(plane) < 0)
+					clipOnePoint(plane, t.p1, t.n1, t.c1, t.p2, t.n2, t.c2,
+							t.p3, t.n3, t.c3, t.diff, t.spec);
+				else if (t.p2.dot(plane) < 0)
+					clipOnePoint(plane, t.p2, t.n2, t.c2, t.p3, t.n3, t.c3,
+							t.p1, t.n1, t.c1, t.diff, t.spec);
+				else if (t.p3.dot(plane) < 0)
+					clipOnePoint(plane, t.p3, t.n3, t.c3, t.p1, t.n1, t.c1,
+							t.p2, t.n2, t.c2, t.diff, t.spec);
+				
+				// odstraneni puvodniho trojuhelniku, ktery vycuhoval
+				iterator.remove();
+			}
+		}
+	}  // clipping
 	
 	
 	/**
@@ -133,7 +328,6 @@ public class Scene {
 	 */
 	public void normalizeW() {
 		Triangle t;
-		
 		Iterator<Triangle> iterator = triangles.iterator();
 		while(iterator.hasNext()) {
 			t = iterator.next();
@@ -153,7 +347,23 @@ public class Scene {
 	 */
 	public void mapToDC(double Pxmin, double Pymin,
 			double Pxmax, double Pymax) {
-		// TODO doplnit (my_map_to_DC.cpp)
+		double scaleX = (Pxmax - Pxmin) / (cam.getUmax() - cam.getUmin());
+		double scaleY = (Pymax - Pymin) / (cam.getVmax() - cam.getVmin());
+		
+		Triangle t;
+		Iterator<Triangle> iterator = triangles.iterator();
+		while(iterator.hasNext()) {
+			t = iterator.next();
+			
+			t.p1.setX((t.p1.getX() - cam.getUmin()) * scaleX + Pxmin);
+			t.p1.setY((t.p1.getY() - cam.getVmin()) * scaleY + Pymin);
+			
+			t.p2.setX((t.p3.getX() - cam.getUmin()) * scaleX + Pxmin);
+			t.p2.setY((t.p3.getY() - cam.getVmin()) * scaleY + Pymin);
+			
+			t.p3.setX((t.p3.getX() - cam.getUmin()) * scaleX + Pxmin);
+			t.p3.setY((t.p3.getY() - cam.getVmin()) * scaleY + Pymin);
+		}
 	}
 	
 	
@@ -167,12 +377,16 @@ public class Scene {
 		Iterator<Triangle> iterator = triangles.iterator();
 		while (iterator.hasNext()) {
 			t = iterator.next();
+			// TODO vratit
+			/*
 			if (t.shadingType == ShadingType.CONST)
 				shadingConst(map, t);
 			else if (t.shadingType == ShadingType.PHONG)
 				shadingPhong(map, t);
 			else
 				shadingGouard(map, t);
+			*/
+			shadingConst(map, t);
 		}
 	}
 	
@@ -183,7 +397,9 @@ public class Scene {
 	 * @param t Trojuhelnik
 	 */
 	private void shadingConst(PixelMap map, Triangle t) {
-		// TODO doplnit
+		for (int i = 0; i < 100; i++)
+			for (int j = 0; j < 100; j++)
+				map.setPixel(i, j, new ColorRGBZ(1, 1, 1, -1));
 	}
 	
 	

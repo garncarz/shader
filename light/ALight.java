@@ -70,7 +70,8 @@ public class ALight implements Light {
 	 * @param spec Zrcadlovy koeficient odrazu
 	 * @return Prispevek svetla pro bod
 	 */
-	public ColorRGB myLight(Vector3D prp, Vector3D point, Vector3D nor, ColorRGB diff, ColorRGB spec) {
+	public ColorRGB myLight(Vector3D prp, Vector3D point,
+			Vector3D nor, ColorRGB diff, ColorRGB spec) {
 		ColorRGB color = new ColorRGB(diff);
 		color.mul(c);
 		return color;

@@ -157,6 +157,16 @@ public class Vector3D {
 		vz -= a.getZ();
 	}
 	
+	/**
+	 * Odecte vektor
+	 * @param a Vektor
+	 */
+	public void sub(Vector3Dh a) {
+		vx -= a.getX();
+		vy -= a.getY();
+		vz -= a.getZ();
+	}
+	
 	
 	/**
 	 * Vraci skalarni soucin s vektorem

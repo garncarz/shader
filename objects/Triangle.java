@@ -52,6 +52,11 @@ public class Triangle {
 	
 	/**
 	 * Konstruktor
+	 */
+	public Triangle() { }
+	
+	/**
+	 * Konstruktor
 	 * @param p1 1. vrchol trojuhelniku
 	 * @param p2 2. vrchol trojuhelniku
 	 * @param p3 3. vrchol trojuhelniku

@@ -108,8 +108,14 @@ public class PLight implements Light {
 	 * @param prp Projection Reference Point
 	 */
 	public void myLight(Triangle t, Vector3D prp) {
-		// TODO dopsat
+		t.c1.add(myLight(new Vector3D(prp), new Vector3D(t.p1),
+				t.n1, t.diff, t.spec));
+		t.c2.add(myLight(new Vector3D(prp), new Vector3D(t.p2),
+				t.n2, t.diff, t.spec));
+		t.c3.add(myLight(new Vector3D(prp), new Vector3D(t.p3),
+				t.n3, t.diff, t.spec));
 	}
+	
 	
 	/**
 	 * Vrati prispevek svetla pro dany bod
@@ -122,9 +128,9 @@ public class PLight implements Light {
 	 */
 	public ColorRGB myLight(Vector3D prp, Vector3D point,
 			Vector3D nor, ColorRGB diff, ColorRGB spec) {
-		/*
 		// osvetleni bodu - barva
-		ColorRGB ac = new ColorRGB();
+		ColorRGB color = new ColorRGB(),
+				tmp = new ColorRGB(); 
 		Vector3D
 				// vektor z vrcholu trojuhelniku do pozice svetla
 				l = new Vector3D(),
@@ -145,11 +151,28 @@ public class PLight implements Light {
 				cosfi,
 				// kosinus uhlu mezi odrazenym paprskem a smerem pozorovani
 				cosalpha;
-		*/
 		
-		// TODO dopsat
+		// TODO doplnit pocitani s PRP
 		
-		return null;
+		l.set(p); l.sub(point);
+		d = l.length();
+		fatt = 1.0 / (a.getX() + a.getY() * d + a.getZ() * d * d);
+		l.normalize(); nor.normalize();
+		cosalpha = l.dot(nor);
+		color.set(c);
+		color.mul(fatt);
+		color.mul(cosalpha);
+		color.mul(diff);
+		
+		cosalpha = Math.pow(cosalpha, 8);
+		tmp.set(c);
+		tmp.mul(fatt);
+		tmp.mul(cosalpha);
+		tmp.mul(spec);
+		
+		color.add(tmp);
+		
+		return color;
 	}
 	
 }
