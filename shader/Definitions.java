@@ -16,12 +16,6 @@ public class Definitions {
 	 */
 	public static final double REAL_MAX = Double.MAX_VALUE;
 	
-	// TODO zrejme smazat
-	/**
-	 * Maximalni hodnota barvy
-	 */
-	public static final double MAX_COLOR = 1;
-	
 	/**
 	 * Definice oblasti na vystupnim zarizeni 
 	 */

@@ -19,22 +19,18 @@ import geom.*;
 public class PixelMap {
 
 	/**
-	 * Pocet radku mapy
+	 * Sirka mapy (pocet sloupcu)
 	 */
-	private int m;
+	private int width;
 	
 	/**
-	 * Pocet sloupcu mapy
+	 * Vyska mapy (pocet radku)
 	 */
-	private int n;
+	private int height;
 	
 	/**
-	 * Maximalni hodnota barvy
-	 */
-	private double maxColor;
-	
-	/**
-	 * Dvourozmerne pole pixelu
+	 * Dvourozmerne pole pixelu;
+	 * index: nejdriv sloupce, pak radky
 	 */
 	private ColorRGBZ map[][];
 	
@@ -42,19 +38,17 @@ public class PixelMap {
 	/**
 	 * Konstruktor
 	 * @param initColor Pocatecni barva vsech pixelu
-	 * @param maxColor Maximalni hodnota barvy
-	 * @param m Pocet radku mapy
-	 * @param n Pocet sloupcu mapy
+	 * @param width Pocet sloupcu mapy
+	 * @param height Pocet radku mapy
 	 */
-	public PixelMap(ColorRGBZ initColor, double maxColor, int m, int n) {
-		this.m = m;
-		this.n = n;
-		this.maxColor = maxColor;
+	public PixelMap(ColorRGBZ initColor, int width, int height) {
+		this.width = width;
+		this.height = height;
 		
-		map = new ColorRGBZ[m][n];
-		for (int i = 0; i < m; i++)
-			for (int j = 0; j < n; j++)
-				map[i][j] = new ColorRGBZ();
+		map = new ColorRGBZ[width][height];
+		for (int x = 0; x < width; x++)
+			for (int y = 0; y < height; y++)
+				map[x][y] = new ColorRGBZ();
 		init(initColor);
 	}
 	
@@ -63,7 +57,7 @@ public class PixelMap {
 	 * @param initColor Pocatecni barva vsech pixelu
 	 */
 	public PixelMap(ColorRGBZ initColor) {
-		this(initColor, 0, 1, 1);
+		this(initColor, 500, 500);
 	}
 	
 	
@@ -72,58 +66,33 @@ public class PixelMap {
 	 * @param c Nova barva
 	 */
 	public void init(ColorRGBZ c) {
-		for (int i = 0; i < m; i++)
-			for (int j = 0; j < n; j++)
-				map[i][j].set(c);
+		for (int x = 0; x < width; x++)
+			for (int y = 0; y < height; y++)
+				map[x][y].set(c);
 	}
 	
 	
 	/**
 	 * Nastavi barvu pixelu na dane pozici
-	 * @param i Radek mapy
-	 * @param j Sloupec mapy
+	 * @param x Sloupec mapy
+	 * @param y Radek mapy
 	 * @param c Nova barva
 	 */
-	public void setPixel(int i, int j, ColorRGBZ c) {
-		if (i >= 0 && i < m && j >= 0 && j < n)
-			map[i][j].set(c);
-		
-		// pripadna korekce
-		if (map[i][j].getR() > 1)
-			map[i][j].setR(1);
-		if (map[i][j].getG() > 1)
-			map[i][j].setG(1);
-		if (map[i][j].getB() > 1)
-			map[i][j].setB(1);
+	public void setPixel(int x, int y, ColorRGBZ c) {
+		if (x >= 0 && x < width && y >= 0 && y < height)
+			map[x][y].set(c);
 	}
 	
 	/**
 	 * Vrati barvu pixelu na dane pozici
-	 * @param i Radek mapy
-	 * @param j Sloupec mapy
+	 * @param x Sloupec mapy
+	 * @param y Radek mapy
 	 * @return Barva
 	 */
-	public ColorRGBZ getPixel(int i, int j) {
-		if (i >= 0 && i < m && j >= 0 && j < n)
-			return new ColorRGBZ(map[i][j]);
+	public ColorRGBZ getPixel(int x, int y) {
+		if (x >= 0 && x < width && y >= 0 && y < height)
+			return new ColorRGBZ(map[x][y]);
 		return new ColorRGBZ();
-	}
-	
-	
-	/**
-	 * Nastavi maximalni barvu
-	 * @param maxColor Nova hodnota
-	 */
-	public void setMaxColor(double maxColor) {
-		this.maxColor = maxColor;
-	}
-	
-	/**
-	 * Vrati maximalni barvu
-	 * @return Maximalni barva
-	 */
-	public double getMaxColor() {
-		return maxColor;
 	}
 	
 	
@@ -132,7 +101,7 @@ public class PixelMap {
 	 * @return Pocet radku mapy
 	 */
 	public int getCountRows() {
-		return m;
+		return height;
 	}
 	
 	/**
@@ -140,7 +109,7 @@ public class PixelMap {
 	 * @return Pocet sloupcu mapy
 	 */
 	public int getCountColumns() {
-		return n;
+		return width;
 	}
 	
 	
@@ -150,14 +119,16 @@ public class PixelMap {
 	 * @throws Exception Chyba ukladani obrazku
 	 */
 	public void writeToBmp(String name) throws Exception {
-		BufferedImage image = new BufferedImage(n, m,
+		BufferedImage image = new BufferedImage(width, height,
 				BufferedImage.TYPE_INT_RGB);
-		for (int i = 0; i < n; i++)
-			for (int j = 0; j < m; j++) {
-				ColorRGB c = new ColorRGB(map[j][i]);
-				Color color = new Color((float)c.getR(),
-						(float)c.getG(), (float)c.getB());
-				image.setRGB(i, j, color.getRGB());
+		for (int x = 0; x < width; x++)
+			for (int y = 0; y < height; y++) {
+				ColorRGB c = new ColorRGB(map[x][y]);
+				float r = (float)Math.min(Math.max(c.getR(), 0), 1),
+						g = (float)Math.min(Math.max(c.getG(), 0), 1),
+						b = (float)Math.min(Math.max(c.getB(), 0), 1);
+				Color color = new Color(r, g, b);
+				image.setRGB(x, y, color.getRGB());
 			}
 		try {
 			ImageIO.write((RenderedImage)image, "BMP", new File(name));

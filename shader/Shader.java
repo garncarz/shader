@@ -1,5 +1,6 @@
 package shader;
 
+import objects.Triangle;
 import geom.*;
 
 /**
@@ -21,7 +22,7 @@ public class Shader {
 		
 		Scene scene = new Scene();
 		ColorRGBZ c = new ColorRGBZ(0, 0, 0, -1 * Definitions.REAL_MAX);
-		PixelMap map = new PixelMap(c, Definitions.MAX_COLOR,
+		PixelMap map = new PixelMap(c,
 				Definitions.PXMAX - Definitions.PXMIN,
 				Definitions.PYMAX - Definitions.PYMIN);
 		
@@ -60,11 +61,13 @@ public class Shader {
 		scene.viewingTransform();
 		System.out.println("OK");
 		
+		/*
 		System.out.print("Orezavam zornym hranolem... ");
 		scene.clipping();
 		System.out.println("OK");
 		System.out.println("\tScena obsahuje " + scene.triangles.size() +
 				" trojuhelniku");
+		*/
 		
 		System.out.print("Prevadim do afinnich souradnic... ");
 		scene.normalizeW();
@@ -74,6 +77,25 @@ public class Shader {
 		scene.mapToDC(Definitions.PXMIN, Definitions.PYMIN,
 				Definitions.PXMAX, Definitions.PYMAX);
 		System.out.println("OK");
+		
+		// TODO smazat
+		/*
+		{
+			scene.triangles.clear();
+			Triangle t = new Triangle(
+					new Vector3D(100, 200, -0.5),
+					new Vector3D(200, 200, -0.5),
+					new Vector3D(200, 100, -0.5),
+					new Vector3D(0, 0, -1),
+					new Vector3D(0, 0, -1),
+					new Vector3D(0, 0, -1),
+					new ColorRGB(0, 0, 1),
+					new ColorRGB(1, 0, 0),
+					new ColorRGB(0, 1, 0),
+					new Vector3D(0, 0, -1));
+			scene.triangles.add(t);
+		}
+		*/
 		
 		System.out.print("Rasterizuji... ");
 		scene.rasterize(map);

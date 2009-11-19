@@ -412,58 +412,58 @@ public class Scene {
 		int parts;
 		
 		// setrideni podle y:
-		if (pA.getY() > pB.getY()) {
+		if (pA.getY() < pB.getY()) {
 			pTmp.set(pA); pA.set(pB); pB.set(pTmp);
 			cTmp.set(cA); cA.set(cB); cB.set(cTmp);
 		}
-		if (pA.getY() > pC.getY()) {
-			pTmp.set(pA); pA.set(pC); pC.set(pTmp);
-			cTmp.set(cA); cA.set(cC); cC.set(cTmp);
+		if (pB.getY() < pC.getY()) {
+			pTmp.set(pB); pB.set(pC); pC.set(pTmp);
+			cTmp.set(cB); cB.set(cC); cC.set(cTmp);
 		}
 		
 		// setrideni podle x
-		if (pB.getX() > pB.getX()) {
+		if (pC.getX() > pB.getX()) {
 			pTmp.set(pB); pB.set(pC); pC.set(pTmp);
 			cTmp.set(cB); cB.set(cC); cC.set(cTmp);
 		}
 		
 		// od A k B:
-		parts = (int)Math.abs(pB.getY() - pA.getY());
-		dir.set(pB); dir.sub(pA); v.set(pA);
-		dir.mul(1.0 / parts);
+		v.set(pB); v.sub(pA); parts = (int)v.length();
+		dir.set(pB); dir.sub(pA); dir.mul(1.0 / parts);
+		v.set(pA);
 		
-		cDir.set(cB); cDir.sub(cA); c.set(cA);
-		cDir.mul(1.0 / parts);
+		cDir.set(cB); cDir.sub(cA); cDir.mul(1.0 / parts);
+		c.set(cA);
 		
 		for (int i = 0; i < parts; i++) {
-			v.add(dir); c.add(cDir);
 			map.setPixel((int)v.getX(), (int)v.getY(), c);
+			v.add(dir); c.add(cDir);
 		}
 		
 		// od B k C:
-		parts = (int)Math.abs(pC.getY() - pB.getY());
-		dir.set(pC); dir.sub(pB); v.set(pB);
-		dir.mul(1.0 / parts);
+		v.set(pC); v.sub(pB); parts = (int)v.length();
+		dir.set(pC); dir.sub(pB); dir.mul(1.0 / parts);
+		v.set(pB);
 		
-		cDir.set(cC); cDir.sub(cB); c.set(cB);
-		cDir.mul(1.0 / parts);
+		cDir.set(cC); cDir.sub(cB); cDir.mul(1.0 / parts);
+		c.set(cB);
 		
 		for (int i = 0; i < parts; i++) {
-			v.add(dir); c.add(cDir);
 			map.setPixel((int)v.getX(), (int)v.getY(), c);
+			v.add(dir); c.add(cDir);
 		}
 		
 		// od A k C:
-		parts = (int)Math.abs(pC.getY() - pA.getY());
-		dir.set(pC); dir.sub(pA); v.set(pA);
-		dir.mul(1.0 / parts);
+		v.set(pC); v.sub(pA); parts = (int)v.length();
+		dir.set(pC); dir.sub(pA); dir.mul(1.0 / parts);
+		v.set(pA);
 		
-		cDir.set(cC); cDir.sub(cA); c.set(cA);
-		cDir.mul(1.0 / parts);
+		cDir.set(cC); cDir.sub(cA); cDir.mul(1.0 / parts);
+		c.set(cA);
 		
 		for (int i = 0; i < parts; i++) {
-			v.add(dir); c.add(cDir);
 			map.setPixel((int)v.getX(), (int)v.getY(), c);
+			v.add(dir); c.add(cDir);
 		}
 	}  // shadingWire
 	
