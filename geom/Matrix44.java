@@ -111,11 +111,17 @@ public class Matrix44 {
 	 * @param a Matice
 	 */
 	public void mul(Matrix44 a) {
+		Matrix44 newM = new Matrix44();
+
 		for (int i = 0; i < 4; i++)
 			for (int j = 0; j < 4; j++)
 				for (int k = 0; k < 4; k++)
-					matrix[i][j] += matrix[i][k] * a.getElement(k, j);
+					newM.matrix[i][j] += matrix[i][k] * a.getElement(k, j);
+		
+		set(newM);
 	}
+	
+	// TODO nechat si vypsat vysledky z VS, srovnat (u nasobeni matic)
 	
 	
 	/**

@@ -73,13 +73,15 @@ public class PixelMap {
 	
 	
 	/**
-	 * Nastavi barvu pixelu na dane pozici
+	 * Nastavi barvu pixelu na dane pozici,
+	 * pokud nova barva patri blizsimu bodu
 	 * @param x Sloupec mapy
 	 * @param y Radek mapy
 	 * @param c Nova barva
 	 */
 	public void setPixel(int x, int y, ColorRGBZ c) {
-		if (x >= 0 && x < width && y >= 0 && y < height)
+		if (x >= 0 && x < width && y >= 0 && y < height
+				&& c.getZ() > map[x][y].getZ())
 			map[x][y].set(c);
 	}
 	

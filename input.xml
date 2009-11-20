@@ -11,12 +11,23 @@
 		back="-60"
 	/>
 	
+	<!--
+	<camera
+		vrpX="0" vrpY="-10" vrpZ="0"
+		vpnX="0" vpnY="1" vpnZ="0"
+		vupX="0" vupY="0" vupZ="1"
+		prpX="0" prpY="0" prpZ="1"
+		Umin="-10" Vmin="-10" Umax="10" Vmax="10"
+		front="-5"
+		back="-60"
+	/>
+	-->
+	
 	
 	<alight
 		r="1" g="1" b="1" s="0.4"
 	/>
 	
-	<!--
 	<plight
 		x="10" y="10" z="6"
 		r="1" g="1" b="1" s="15"
@@ -40,7 +51,6 @@
 		r="1" g="1" b="1" s="15"
 		attX="1" attY="1" attZ="1"
 	/>
-	-->
 	
 	<!--
 	<rlight
@@ -54,16 +64,26 @@
 	-->
 	
 
+	<!--
 	<block
-		x="0" y="-10" z="0"
+		x="0" y="0" z="0"
 		l="5" w="5" h="10"
 		dl="1" dw="1" dh="1"
 		diffR="0" diffG="0.5" diffB="1" diffS="0.8"
 		specR="0" specG="0.5" specB="1" specS="0.8"
 		shading="GOUARD"
 	/>
+	-->
+
+	<block
+		x="0" y="-10" z="0"
+		l="5" w="5" h="10"
+		dl="10" dw="10" dh="10"
+		diffR="0" diffG="0.5" diffB="1" diffS="0.8"
+		specR="0" specG="0.5" specB="1" specS="0.8"
+		shading="GOUARD"
+	/>
 	
-	<!--
 	<sphere
 		x="-10" y="0" z="0"
 		radius="5"
@@ -101,6 +121,5 @@
 		specR="1" specG="1" specB="0" specS="0.8"
 		shading="GOUARD"
 	/>
-	-->
 
 </scene>

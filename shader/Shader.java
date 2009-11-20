@@ -61,13 +61,11 @@ public class Shader {
 		scene.viewingTransform();
 		System.out.println("OK");
 		
-		/*
 		System.out.print("Orezavam zornym hranolem... ");
 		scene.clipping();
 		System.out.println("OK");
 		System.out.println("\tScena obsahuje " + scene.triangles.size() +
 				" trojuhelniku");
-		*/
 		
 		System.out.print("Prevadim do afinnich souradnic... ");
 		scene.normalizeW();
@@ -83,9 +81,9 @@ public class Shader {
 		{
 			scene.triangles.clear();
 			Triangle t = new Triangle(
+					new Vector3D(200, 100, -0.5),
 					new Vector3D(100, 200, -0.5),
 					new Vector3D(200, 200, -0.5),
-					new Vector3D(200, 100, -0.5),
 					new Vector3D(0, 0, -1),
 					new Vector3D(0, 0, -1),
 					new Vector3D(0, 0, -1),

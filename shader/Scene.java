@@ -278,10 +278,9 @@ public class Scene {
 					planes[iplane][2],
 					planes[iplane][3]);
 			
-			Iterator<Triangle> iterator = triangles.iterator();
-			while (iterator.hasNext()) {
-				t = iterator.next();
-				
+			for (int it = 0; it < triangles.size(); it++) {
+				t = triangles.get(it);
+
 				// vsechny body trojuhelniku uvnitr
 				if (t.p1.dot(plane) <= 0
 						&& t.p2.dot(plane) <= 0
@@ -317,7 +316,7 @@ public class Scene {
 							t.p2, t.n2, t.c2, t.diff, t.spec);
 				
 				// odstraneni puvodniho trojuhelniku, ktery vycuhoval
-				// iterator.remove();
+				triangles.remove(it);
 			}
 		}
 	}  // clipping
@@ -358,8 +357,8 @@ public class Scene {
 			t.p1.setX((t.p1.getX() - cam.getUmin()) * scaleX + Pxmin);
 			t.p1.setY((t.p1.getY() - cam.getVmin()) * scaleY + Pymin);
 			
-			t.p2.setX((t.p3.getX() - cam.getUmin()) * scaleX + Pxmin);
-			t.p2.setY((t.p3.getY() - cam.getVmin()) * scaleY + Pymin);
+			t.p2.setX((t.p2.getX() - cam.getUmin()) * scaleX + Pxmin);
+			t.p2.setY((t.p2.getY() - cam.getVmin()) * scaleY + Pymin);
 			
 			t.p3.setX((t.p3.getX() - cam.getUmin()) * scaleX + Pxmin);
 			t.p3.setY((t.p3.getY() - cam.getVmin()) * scaleY + Pymin);

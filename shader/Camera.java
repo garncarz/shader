@@ -338,11 +338,11 @@ public class Camera {
 		M1.setElement(3, 0, -VRP.getX());
 		M1.setElement(3, 1, -VRP.getY());
 		M1.setElement(3, 2, -VRP.getZ());
-				
+		
 		IM1.setDiagonal(1);
-		M1.setElement(3, 0, VRP.getX());
-		M1.setElement(3, 1, VRP.getY());
-		M1.setElement(3, 2, VRP.getZ());
+		IM1.setElement(3, 0, VRP.getX());
+		IM1.setElement(3, 1, VRP.getY());
+		IM1.setElement(3, 2, VRP.getZ());
 		
 		
 		// M2 - natoceni tak, "aby z smerovalo do tabule"

@@ -22,7 +22,7 @@ public class Definitions {
 	public static final int
 			PXMIN = 0,
 			PYMIN = 0,
-			PXMAX = 500,
-			PYMAX = 500;
+			PXMAX = 700,
+			PYMAX = 700;
 	
 }
