@@ -177,7 +177,11 @@ public class Scene {
 		b.set(t1.p3); b.sub(t1.p1);
 		t1.n.set(a); t1.n.cross(b); t1.n.normalize();
 		
-		triangles.add(t1);
+		// pridani v pripade neporuseni roviny
+		if (t1.p1.dot(plane) <= 0
+				&& t1.p2.dot(plane) <= 0
+				&& t1.p3.dot(plane) <= 0)
+			triangles.add(t1);
 		
 		
 		tmp.set(p1); tmp.sub(p3);
@@ -195,7 +199,11 @@ public class Scene {
 		b.set(t2.p3); b.sub(t2.p1);
 		t2.n.set(a); t2.n.cross(b); t2.n.normalize();
 		
-		triangles.add(t2);
+		// pridani v pripade neporuseni roviny
+		if (t2.p1.dot(plane) <= 0
+				&& t2.p2.dot(plane) <= 0
+				&& t2.p3.dot(plane) <= 0)
+			triangles.add(t2);
 	}  // clipOnePoint
 	
 	
@@ -253,7 +261,11 @@ public class Scene {
 		b.set(t.p3); b.sub(t.p1);
 		t.n.set(a); t.n.cross(b); t.n.normalize();
 		
-		triangles.add(t);
+		// pridani v pripade neporuseni roviny
+		if (t.p1.dot(plane) <= 0
+				&& t.p2.dot(plane) <= 0
+				&& t.p3.dot(plane) <= 0)
+			triangles.add(t);
 	}  // clipTwoPoints
 	
 	
@@ -278,14 +290,16 @@ public class Scene {
 					planes[iplane][2],
 					planes[iplane][3]);
 			
-			for (int it = 0; it < triangles.size(); it++) {
+			for (int it = 0; it < triangles.size();) {
 				t = triangles.get(it);
 
 				// vsechny body trojuhelniku uvnitr
 				if (t.p1.dot(plane) <= 0
 						&& t.p2.dot(plane) <= 0
-						&& t.p3.dot(plane) <= 0)
+						&& t.p3.dot(plane) <= 0) {
+					it++;
 					continue;
+				}
 				
 				// vsechny tri body mimo
 				else if (t.p1.dot(plane) > 0
@@ -367,7 +381,7 @@ public class Scene {
 	
 	
 	/**
-	 * Rasterizuje do mapy pixelu
+	 * Rasterizuje scenu do mapy pixelu
 	 * - rozsviti jednotlive pixely u vsech trojuhelniku sceny
 	 * @param map Mapa pixelu
 	 */
@@ -378,14 +392,16 @@ public class Scene {
 			t = iterator.next();
 			// TODO vratit
 			/*
-			if (t.shadingType == ShadingType.CONST)
+			if (t.shadingType == ShadingType.WIRE)
+				shadingWire(map, t);
+			else if (t.shadingType == ShadingType.CONST)
 				shadingConst(map, t);
 			else if (t.shadingType == ShadingType.PHONG)
 				shadingPhong(map, t);
 			else
 				shadingGouard(map, t);
 			*/
-			shadingWire(map, t);
+			shadingConst(map, t);
 		}
 	}
 	
@@ -411,13 +427,13 @@ public class Scene {
 		int parts;
 		
 		// setrideni podle y:
-		if (pA.getY() < pB.getY()) {
+		if (pA.getY() > pB.getY()) {
 			pTmp.set(pA); pA.set(pB); pB.set(pTmp);
 			cTmp.set(cA); cA.set(cB); cB.set(cTmp);
 		}
-		if (pB.getY() < pC.getY()) {
-			pTmp.set(pB); pB.set(pC); pC.set(pTmp);
-			cTmp.set(cB); cB.set(cC); cC.set(cTmp);
+		if (pA.getY() > pC.getY()) {
+			pTmp.set(pA); pA.set(pC); pC.set(pTmp);
+			cTmp.set(cA); cA.set(cC); cC.set(cTmp);
 		}
 		
 		// setrideni podle x
@@ -425,6 +441,7 @@ public class Scene {
 			pTmp.set(pB); pB.set(pC); pC.set(pTmp);
 			cTmp.set(cB); cB.set(cC); cC.set(cTmp);
 		}
+
 		
 		// od A k B:
 		v.set(pB); v.sub(pA); parts = (int)v.length();
@@ -473,8 +490,110 @@ public class Scene {
 	 * @param t Trojuhelnik
 	 */
 	private void shadingConst(PixelMap map, Triangle t) {
-		// TODO doplnit
-	}
+		Vector3D pA = new Vector3D(t.p1),
+				pB = new Vector3D(t.p2),
+				pC = new Vector3D(t.p3),
+				pTmp = new Vector3D(),
+				pMiddle = new Vector3D();
+		ColorRGBZ cA = new ColorRGBZ(t.c1, t.p1.getZ()),
+				cB = new ColorRGBZ(t.c2, t.p2.getZ()),
+				cC = new ColorRGBZ(t.c3, t.p3.getZ()),
+				cTmp = new ColorRGBZ(),
+				cMiddle = new ColorRGBZ();
+		double xStartDir, xEndDir, d,
+				zStartDir, zEndDir, zDir;
+		
+		// setrideni podle y:
+		if (pA.getY() > pB.getY()) {
+			pTmp.set(pA); pA.set(pB); pB.set(pTmp);
+			cTmp.set(cA); cA.set(cB); cB.set(cTmp);
+		}
+		if (pA.getY() > pC.getY()) {
+			pTmp.set(pA); pA.set(pC); pC.set(pTmp);
+			cTmp.set(cA); cA.set(cC); cC.set(cTmp);
+		}
+		
+		// setrideni podle x
+		if (pC.getX() > pB.getX()) {
+			pTmp.set(pB); pB.set(pC); pC.set(pTmp);
+			cTmp.set(cB); cB.set(cC); cC.set(cTmp);
+		}
+		
+		// prumerna barva
+		cMiddle.set(cA); cMiddle.add(cB); cMiddle.add(cC);
+		cMiddle.mul(1.0 / 3);
+		
+		// bod mezi A a C delici radkovani, maximalne vsak ve vysce B
+		pMiddle.set(pC); pMiddle.sub(pA);
+		pMiddle.mul(Math.min(1, (pB.getY() - pA.getY()) / (pC.getY() - pA.getY())));
+		pMiddle.add(pA);
+		
+		// spodni radkovani (odzdola nahoru):
+		xStartDir = (pMiddle.getX() - pA.getX()) /
+				(pMiddle.getY() - pA.getY());
+		xEndDir = (pB.getX() - pA.getX()) /
+				(pB.getY() - pA.getY());
+		zStartDir = (pMiddle.getZ() - pA.getZ()) /
+				(pMiddle.getY() - pA.getY());
+		zEndDir = (pB.getZ() - pA.getZ()) /
+				(pB.getY() - pA.getY());
+		if (xEndDir < xStartDir) {  // x musi rust
+			d = xStartDir; xStartDir = xEndDir; xEndDir = d;
+			d = zStartDir; zStartDir = zEndDir; zEndDir = d;
+		}
+		for (double y = pA.getY(), xStart = pA.getX(), xEnd = pA.getX(),
+					zStart = pA.getZ(), zEnd = pA.getZ();
+				y <= pMiddle.getY();
+				y++, xStart += xStartDir, xEnd += xEndDir,
+					zStart += zStartDir, zEnd += zEndDir) {
+			double z = zStart;
+			zDir = (zEnd - zStart) / (xEnd - xStart);
+			for (int x = (int)xStart; x <= xEnd; x++, z += zDir) {
+				ColorRGBZ c = new ColorRGBZ(cMiddle);
+				c.setZ(z);
+				map.setPixel(x, (int)y, c);
+			}
+		}
+		
+		// nyni setrideni podle y
+		if (pC.getY() < pB.getX()) {
+			pTmp.set(pB); pB.set(pC); pC.set(pTmp);
+			cTmp.set(cB); cB.set(cC); cC.set(cTmp);
+		}
+		
+		// prepocitani prostredniho bodu
+		pMiddle.set(pC); pMiddle.sub(pA);
+		pMiddle.mul(Math.min(1, (pB.getY() - pA.getY()) / (pC.getY() - pA.getY())));
+		pMiddle.add(pA);
+		
+		// horni radkovani (odshora dolu):
+		xStartDir = -(pC.getX() - pMiddle.getX()) /
+				(pC.getY() - pMiddle.getY());
+		xEndDir = -(pC.getX() - pB.getX()) /
+				(pC.getY() - pB.getY());
+		zStartDir = -(pC.getZ() - pMiddle.getZ()) /
+				(pC.getY() - pMiddle.getY());
+		zEndDir = -(pC.getZ() - pB.getZ()) /
+				(pC.getY() - pB.getY());
+		if (xEndDir < xStartDir) {  // x musi rust
+			d = xStartDir; xStartDir = xEndDir; xEndDir = d;
+			d = zStartDir; zStartDir = zEndDir; zEndDir = d;
+		}
+		for (double y = pC.getY(), xStart = pC.getX(), xEnd = pC.getX(),
+					zStart = pC.getZ(), zEnd = pC.getZ();
+				y >= pMiddle.getY();
+				y--, xStart += xStartDir, xEnd += xEndDir,
+					zStart += zStartDir, zEnd += zEndDir) {
+			double z = zStart;
+			zDir = (zEnd - zStart) / (xEnd - xStart);
+			for (int x = (int)xStart; x <= xEnd; x++, z += zDir) {
+				ColorRGBZ c = new ColorRGBZ(cMiddle);
+				c.setZ(z);
+				map.setPixel(x, (int)y, cMiddle);
+			}
+		}
+		
+	}  // shadingConst
 	
 	
 	/**

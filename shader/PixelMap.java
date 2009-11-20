@@ -10,9 +10,6 @@ import javax.imageio.ImageIO;
 
 import geom.*;
 
-// TODO zrejme promazat nepouzivane veci (maxColor, set, get,
-// getCountRows, getCountColumns)
-
 /**
  * 2D plocha pixelu
  */
@@ -81,7 +78,7 @@ public class PixelMap {
 	 */
 	public void setPixel(int x, int y, ColorRGBZ c) {
 		if (x >= 0 && x < width && y >= 0 && y < height
-				&& c.getZ() > map[x][y].getZ())
+				&& c.getZ() >= map[x][y].getZ())
 			map[x][y].set(c);
 	}
 	
@@ -130,7 +127,7 @@ public class PixelMap {
 						g = (float)Math.min(Math.max(c.getG(), 0), 1),
 						b = (float)Math.min(Math.max(c.getB(), 0), 1);
 				Color color = new Color(r, g, b);
-				image.setRGB(x, y, color.getRGB());
+				image.setRGB(x, height - 1 - y, color.getRGB());
 			}
 		try {
 			ImageIO.write((RenderedImage)image, "BMP", new File(name));

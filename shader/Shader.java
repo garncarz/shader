@@ -81,16 +81,17 @@ public class Shader {
 		{
 			scene.triangles.clear();
 			Triangle t = new Triangle(
-					new Vector3D(200, 100, -0.5),
-					new Vector3D(100, 200, -0.5),
-					new Vector3D(200, 200, -0.5),
+					new Vector3D(40, 30, -0.2),
+					new Vector3D(70, 80, -1),
+					new Vector3D(20, 200, -30),
 					new Vector3D(0, 0, -1),
-					new Vector3D(0, 0, -1),
+					new Vector3D(0, 1, 0),
 					new Vector3D(0, 0, -1),
 					new ColorRGB(0, 0, 1),
 					new ColorRGB(1, 0, 0),
 					new ColorRGB(0, 1, 0),
 					new Vector3D(0, 0, -1));
+			t.shadingType = ShadingType.CONST;
 			scene.triangles.add(t);
 		}
 		*/

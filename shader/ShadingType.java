@@ -4,6 +4,12 @@ package shader;
  * Typy stinovani
  */
 public enum ShadingType {
+	
+	/**
+	 * Obrysove stinovani 
+	 */
+	WIRE,
+	
 	/**
 	 * Konstantni stinovani
 	 */
