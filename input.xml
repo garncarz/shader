@@ -78,7 +78,7 @@
 	<block
 		x="0" y="-10" z="0"
 		l="5" w="5" h="10"
-		dl="1" dw="1" dh="1"
+		dl="10" dw="10" dh="10"
 		diffR="0" diffG="0.5" diffB="1" diffS="0.8"
 		specR="0" specG="0.5" specB="1" specS="0.8"
 		shading="GOUARD"

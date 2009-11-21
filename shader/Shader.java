@@ -81,9 +81,9 @@ public class Shader {
 		{
 			scene.triangles.clear();
 			Triangle t = new Triangle(
-					new Vector3D(40, 30, -0.2),
-					new Vector3D(70, 80, -1),
-					new Vector3D(20, 200, -30),
+					new Vector3D(0, 180, -0.2),
+					new Vector3D(140, 20, -1),
+					new Vector3D(120, 200, -30),
 					new Vector3D(0, 0, -1),
 					new Vector3D(0, 1, 0),
 					new Vector3D(0, 0, -1),

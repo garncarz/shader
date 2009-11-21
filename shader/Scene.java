@@ -390,18 +390,10 @@ public class Scene {
 		Iterator<Triangle> iterator = triangles.iterator();
 		while (iterator.hasNext()) {
 			t = iterator.next();
-			// TODO vratit
-			/*
 			if (t.shadingType == ShadingType.WIRE)
 				shadingWire(map, t);
-			else if (t.shadingType == ShadingType.CONST)
-				shadingConst(map, t);
-			else if (t.shadingType == ShadingType.PHONG)
-				shadingPhong(map, t);
 			else
-				shadingGouard(map, t);
-			*/
-			shadingConst(map, t);
+				shadingAllPoints(map, t);
 		}
 	}
 	
@@ -415,33 +407,14 @@ public class Scene {
 		Vector3D pA = new Vector3D(t.p1),
 				pB = new Vector3D(t.p2),
 				pC = new Vector3D(t.p3),
-				pTmp = new Vector3D(),
 				dir = new Vector3D(),
 				v = new Vector3D();
 		ColorRGBZ cA = new ColorRGBZ(t.c1, t.p1.getZ()),
 				cB = new ColorRGBZ(t.c2, t.p2.getZ()),
 				cC = new ColorRGBZ(t.c3, t.p3.getZ()),
-				cTmp = new ColorRGBZ(),
 				cDir = new ColorRGBZ(),
 				c = new ColorRGBZ();
 		int parts;
-		
-		// setrideni podle y:
-		if (pA.getY() > pB.getY()) {
-			pTmp.set(pA); pA.set(pB); pB.set(pTmp);
-			cTmp.set(cA); cA.set(cB); cB.set(cTmp);
-		}
-		if (pA.getY() > pC.getY()) {
-			pTmp.set(pA); pA.set(pC); pC.set(pTmp);
-			cTmp.set(cA); cA.set(cC); cC.set(cTmp);
-		}
-		
-		// setrideni podle x
-		if (pC.getX() > pB.getX()) {
-			pTmp.set(pB); pB.set(pC); pC.set(pTmp);
-			cTmp.set(cB); cB.set(cC); cC.set(cTmp);
-		}
-
 		
 		// od A k B:
 		v.set(pB); v.sub(pA); parts = (int)v.length();
@@ -485,11 +458,96 @@ public class Scene {
 	
 	
 	/**
-	 * Konstantne vystinuje dany trojuhelnik do dane mapy pixelu
+	 * Vrati barvu bodu trojuhelniku pro konstantni stinovani
+	 * @param t Trojuhelnik
+	 * @param x Souradnice x
+	 * @param y Souradnice y
+	 * @return Barva bodu
+	 */
+	private ColorRGBZ shadingConst(Triangle t, double x, double y) {
+		Vector3D v1 = new Vector3D(),
+				v2 = new Vector3D(),
+				v3 = new Vector3D();
+		ColorRGB c = new ColorRGB();
+		double S1, S2, S3, S, z;
+		
+		c.set(t.c1); c.add(t.c2); c.add(t.c3); c.mul(1.0 / 3);
+		
+		S1 = Math.abs(x - t.p1.getX()) * Math.abs(y - t.p1.getY());
+		S2 = Math.abs(x - t.p2.getX()) * Math.abs(y - t.p2.getY());
+		S3 = Math.abs(x - t.p3.getX()) * Math.abs(y - t.p3.getY());
+		
+		v1.set(t.p2); v1.sub(t.p1);
+		v2.set(t.p3); v1.sub(t.p1);  // ano, toto je preklep (v1.sub),
+			// ale zaroven toto funguje prave takto
+		v1.cross(v2);
+		S = v1.length() / 2;
+		
+		v1.set(t.p1); v1.mul(S - S1);
+		v2.set(t.p2); v2.mul(S - S2);
+		v3.set(t.p3); v3.mul(S - S3);
+		
+		v1.add(v2); v1.add(v3);
+		z = v1.getZ();
+		
+		return new ColorRGBZ(c, z);
+	}  // shadingConst
+	
+	
+	/**
+	 * Vrati barvu bodu trojuhelniku pro Gouardovo stinovani
+	 * @param t Trojuhelnik
+	 * @param x Souradnice x
+	 * @param y Souradnice y
+	 * @return Barva bodu
+	 */
+	private ColorRGBZ shadingGouard(Triangle t, double x, double y) {
+		return null;
+	}
+	
+	
+	/**
+	 * Vrati barvu bodu trojuhelniku pro Phongovo stinovani
+	 * @param t Trojuhelnik
+	 * @param x Souradnice x
+	 * @param y Souradnice y
+	 * @return Barva bodu
+	 */
+	private ColorRGBZ shadingPhong(Triangle t, double x, double y) {
+		// TODO dopsat vlastni
+		return shadingGouard(t, x, y);
+	}
+	
+	
+	/**
+	 * Vrati barvu bodu trojuhelniku pro jeho typ stinovani
+	 * @param t Trojuhelnik
+	 * @param x Souradnice x
+	 * @param y Souradnice y
+	 * @return Barva bodu
+	 */
+	private ColorRGBZ shadingPoint(Triangle t, double x, double y) {
+		// TODO vratit
+		if (true)
+			return shadingConst(t, x, y);
+		
+		if (t.shadingType == ShadingType.GOUARD)
+			return shadingGouard(t, x, y);
+		if (t.shadingType == ShadingType.PHONG)
+			return shadingPhong(t, x, y);
+		if (t.shadingType == ShadingType.CONST)
+			return shadingConst(t, x, y);
+		return shadingGouard(t, x, y);
+	}
+	
+	
+	/**
+	 * Projde vsechny body trojuhelniku a uplatni na ne urcene stinovani
+	 * s vystupem do mapy pixelu
 	 * @param map Mapa pixelu
 	 * @param t Trojuhelnik
 	 */
-	private void shadingConst(PixelMap map, Triangle t) {
+	private void shadingAllPoints(PixelMap map, Triangle t) {
 		Vector3D pA = new Vector3D(t.p1),
 				pB = new Vector3D(t.p2),
 				pC = new Vector3D(t.p3),
@@ -498,10 +556,8 @@ public class Scene {
 		ColorRGBZ cA = new ColorRGBZ(t.c1, t.p1.getZ()),
 				cB = new ColorRGBZ(t.c2, t.p2.getZ()),
 				cC = new ColorRGBZ(t.c3, t.p3.getZ()),
-				cTmp = new ColorRGBZ(),
-				cMiddle = new ColorRGBZ();
-		double xStartDir, xEndDir, d,
-				zStartDir, zEndDir, zDir;
+				cTmp = new ColorRGBZ();
+		double xStartDir, xEndDir, d;
 		
 		// setrideni podle y:
 		if (pA.getY() > pB.getY()) {
@@ -519,13 +575,11 @@ public class Scene {
 			cTmp.set(cB); cB.set(cC); cC.set(cTmp);
 		}
 		
-		// prumerna barva
-		cMiddle.set(cA); cMiddle.add(cB); cMiddle.add(cC);
-		cMiddle.mul(1.0 / 3);
 		
 		// bod mezi A a C delici radkovani, maximalne vsak ve vysce B
 		pMiddle.set(pC); pMiddle.sub(pA);
-		pMiddle.mul(Math.min(1, (pB.getY() - pA.getY()) / (pC.getY() - pA.getY())));
+		pMiddle.mul(Math.min(1, (pB.getY() - pA.getY()) /
+				(pC.getY() - pA.getY())));
 		pMiddle.add(pA);
 		
 		// spodni radkovani (odzdola nahoru):
@@ -533,37 +587,26 @@ public class Scene {
 				(pMiddle.getY() - pA.getY());
 		xEndDir = (pB.getX() - pA.getX()) /
 				(pB.getY() - pA.getY());
-		zStartDir = (pMiddle.getZ() - pA.getZ()) /
-				(pMiddle.getY() - pA.getY());
-		zEndDir = (pB.getZ() - pA.getZ()) /
-				(pB.getY() - pA.getY());
 		if (xEndDir < xStartDir) {  // x musi rust
 			d = xStartDir; xStartDir = xEndDir; xEndDir = d;
-			d = zStartDir; zStartDir = zEndDir; zEndDir = d;
 		}
-		for (double y = pA.getY(), xStart = pA.getX(), xEnd = pA.getX(),
-					zStart = pA.getZ(), zEnd = pA.getZ();
+		for (double y = pA.getY(), xStart = pA.getX(), xEnd = pA.getX();
 				y <= pMiddle.getY();
-				y++, xStart += xStartDir, xEnd += xEndDir,
-					zStart += zStartDir, zEnd += zEndDir) {
-			double z = zStart;
-			zDir = (zEnd - zStart) / (xEnd - xStart);
-			for (int x = (int)xStart; x <= xEnd; x++, z += zDir) {
-				ColorRGBZ c = new ColorRGBZ(cMiddle);
-				c.setZ(z);
-				map.setPixel(x, (int)y, c);
-			}
-		}
+				y++, xStart += xStartDir, xEnd += xEndDir)
+			for (int x = (int)xStart; x <= (int)Math.ceil(xEnd); x++)
+				map.setPixel(x, (int)y, shadingPoint(t, x, y));
+		
 		
 		// nyni setrideni podle y
-		if (pC.getY() < pB.getX()) {
+		if (pC.getY() < pB.getY()) {
 			pTmp.set(pB); pB.set(pC); pC.set(pTmp);
 			cTmp.set(cB); cB.set(cC); cC.set(cTmp);
 		}
 		
 		// prepocitani prostredniho bodu
 		pMiddle.set(pC); pMiddle.sub(pA);
-		pMiddle.mul(Math.min(1, (pB.getY() - pA.getY()) / (pC.getY() - pA.getY())));
+		pMiddle.mul(Math.min(1, (pB.getY() - pA.getY()) /
+				(pC.getY() - pA.getY())));
 		pMiddle.add(pA);
 		
 		// horni radkovani (odshora dolu):
@@ -571,48 +614,26 @@ public class Scene {
 				(pC.getY() - pMiddle.getY());
 		xEndDir = -(pC.getX() - pB.getX()) /
 				(pC.getY() - pB.getY());
-		zStartDir = -(pC.getZ() - pMiddle.getZ()) /
-				(pC.getY() - pMiddle.getY());
-		zEndDir = -(pC.getZ() - pB.getZ()) /
-				(pC.getY() - pB.getY());
 		if (xEndDir < xStartDir) {  // x musi rust
 			d = xStartDir; xStartDir = xEndDir; xEndDir = d;
-			d = zStartDir; zStartDir = zEndDir; zEndDir = d;
 		}
-		for (double y = pC.getY(), xStart = pC.getX(), xEnd = pC.getX(),
-					zStart = pC.getZ(), zEnd = pC.getZ();
+		for (double y = pC.getY(), xStart = pC.getX(), xEnd = pC.getX();
 				y >= pMiddle.getY();
-				y--, xStart += xStartDir, xEnd += xEndDir,
-					zStart += zStartDir, zEnd += zEndDir) {
-			double z = zStart;
-			zDir = (zEnd - zStart) / (xEnd - xStart);
-			for (int x = (int)xStart; x <= xEnd; x++, z += zDir) {
-				ColorRGBZ c = new ColorRGBZ(cMiddle);
-				c.setZ(z);
-				map.setPixel(x, (int)y, cMiddle);
-			}
+				y--, xStart += xStartDir, xEnd += xEndDir)
+			for (int x = (int)xStart; x <= (int)Math.ceil(xEnd); x++)
+				map.setPixel(x, (int)y, shadingPoint(t, x, y));
+		
+		
+		// prostredni linka nakonec
+		pTmp.set(pB); pTmp.sub(pMiddle);
+		for (int part = 0; part < pTmp.length(); part++) {
+			Vector3D v = new Vector3D(pTmp);
+			v.mul(part / pTmp.length());
+			v.add(pMiddle);
+			map.setPixel((int)v.getX(), (int)v.getY(),
+					shadingPoint(t, v.getX(), v.getY()));
 		}
 		
-	}  // shadingConst
-	
-	
-	/**
-	 * Vystinuje Gouardovou metodou dany trojuhelnik do dane mapy pixelu
-	 * @param map Mapa pixelu
-	 * @param t Trojuhelnik
-	 */
-	private void shadingGouard(PixelMap map, Triangle t) {
-		// TODO doplnit
-	}
-	
-	
-	/**
-	 * Vystinuje Phongovou metodou dany trojuhelnik do dane mapy pixelu
-	 * @param map Mapa pixelu
-	 * @param t Trojuhelnik
-	 */
-	private void shadingPhong(PixelMap map, Triangle t) {
-		// TODO doplnit
-	}
+	}  // shadingAllPoints
 	
 }
