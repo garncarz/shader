@@ -1,6 +1,5 @@
 package shader;
 
-import objects.Triangle;
 import geom.*;
 
 /**
@@ -75,26 +74,6 @@ public class Shader {
 		scene.mapToDC(Definitions.PXMIN, Definitions.PYMIN,
 				Definitions.PXMAX, Definitions.PYMAX);
 		System.out.println("OK");
-		
-		// TODO smazat
-		/*
-		{
-			scene.triangles.clear();
-			Triangle t = new Triangle(
-					new Vector3D(0, 180, -0.2),
-					new Vector3D(140, 20, -1),
-					new Vector3D(120, 200, -30),
-					new Vector3D(0, 0, -1),
-					new Vector3D(0, 1, 0),
-					new Vector3D(0, 0, -1),
-					new ColorRGB(0, 0, 1),
-					new ColorRGB(1, 0, 0),
-					new ColorRGB(0, 1, 0),
-					new Vector3D(0, 0, -1));
-			t.shadingType = ShadingType.CONST;
-			scene.triangles.add(t);
-		}
-		*/
 		
 		System.out.print("Rasterizuji... ");
 		scene.rasterize(map);

@@ -392,8 +392,14 @@ public class Scene {
 			t = iterator.next();
 			if (t.shadingType == ShadingType.WIRE)
 				shadingWire(map, t);
+			else if (t.shadingType == ShadingType.CONST)
+				shadingConst(map, t);
+			else if (t.shadingType == ShadingType.GOUARD)
+				shadingGouard(map, t);
+			else if (t.shadingType == ShadingType.PHONG)
+				shadingPhong(map, t);
 			else
-				shadingAllPoints(map, t);
+				shadingWire(map, t);
 		}
 	}
 	
@@ -458,182 +464,172 @@ public class Scene {
 	
 	
 	/**
-	 * Vrati barvu bodu trojuhelniku pro konstantni stinovani
+	 * Vystinuje trojuhelnik konstantnim zpusobem do mapy pixelu
+	 * @param map Mapa pixelu
 	 * @param t Trojuhelnik
-	 * @param x Souradnice x
-	 * @param y Souradnice y
-	 * @return Barva bodu
 	 */
-	private ColorRGBZ shadingConst(Triangle t, double x, double y) {
-		Vector3D v1 = new Vector3D(),
-				v2 = new Vector3D(),
-				v3 = new Vector3D();
-		ColorRGB c = new ColorRGB();
-		double S1, S2, S3, S, z;
+	private void shadingConst(PixelMap map, Triangle t) {
+		Vector3D pA = new Vector3D(t.p1),
+				pB = new Vector3D(t.p2),
+				pC = new Vector3D(t.p3),
+				dirAB = new Vector3D(),
+				dir = new Vector3D(),
+				vAB = new Vector3D(),
+				v = new Vector3D();
+		ColorRGBZ cA = new ColorRGBZ(t.c1, t.p1.getZ()),
+				cB = new ColorRGBZ(t.c2, t.p2.getZ()),
+				cC = new ColorRGBZ(t.c3, t.p3.getZ()),
+				cMiddle = new ColorRGBZ();  // prumerna barva trojuhelniku
+		int partsAB, parts;
 		
-		c.set(t.c1); c.add(t.c2); c.add(t.c3); c.mul(1.0 / 3);
+		cMiddle.set(cA); cMiddle.add(cB); cMiddle.add(cC);
+		cMiddle.mul(1.0 / 3);
 		
-		S1 = Math.abs(x - t.p1.getX()) * Math.abs(y - t.p1.getY());
-		S2 = Math.abs(x - t.p2.getX()) * Math.abs(y - t.p2.getY());
-		S3 = Math.abs(x - t.p3.getX()) * Math.abs(y - t.p3.getY());
+		// od A k B:
+		vAB.set(pB); vAB.sub(pA);
+		partsAB = (int)Math.ceil(vAB.length()) * 2;
+			// * 2 => ciste stinovani, bez "cerneho antialiasingu"
+		dirAB.set(pB); dirAB.sub(pA); dirAB.mul(1.0 / partsAB);
+		vAB.set(pA);
 		
-		v1.set(t.p2); v1.sub(t.p1);
-		v2.set(t.p3); v1.sub(t.p1);  // ano, toto je preklep (v1.sub),
-			// ale zaroven toto funguje prave takto
-		v1.cross(v2);
-		S = v1.length() / 2;
+		for (int i = 0; i <= partsAB; i++) {
+			// od C k AB:
+			v.set(vAB); v.sub(pC);
+			parts = (int)Math.ceil(v.length());
+			dir.set(vAB); dir.sub(pC); dir.mul(1.0 / parts);
+			v.set(pC);
+			
+			for (int j = 0; j <= parts; j++) {
+				cMiddle.setZ(v.getZ());
+				map.setPixel((int)v.getX(), (int)v.getY(), cMiddle);
+				v.add(dir);
+			}
+			
+			vAB.add(dirAB);
+		}
 		
-		v1.set(t.p1); v1.mul(S - S1);
-		v2.set(t.p2); v2.mul(S - S2);
-		v3.set(t.p3); v3.mul(S - S3);
-		
-		v1.add(v2); v1.add(v3);
-		z = v1.getZ();
-		
-		return new ColorRGBZ(c, z);
 	}  // shadingConst
 	
 	
 	/**
-	 * Vrati barvu bodu trojuhelniku pro Gouardovo stinovani
-	 * @param t Trojuhelnik
-	 * @param x Souradnice x
-	 * @param y Souradnice y
-	 * @return Barva bodu
-	 */
-	private ColorRGBZ shadingGouard(Triangle t, double x, double y) {
-		return null;
-	}
-	
-	
-	/**
-	 * Vrati barvu bodu trojuhelniku pro Phongovo stinovani
-	 * @param t Trojuhelnik
-	 * @param x Souradnice x
-	 * @param y Souradnice y
-	 * @return Barva bodu
-	 */
-	private ColorRGBZ shadingPhong(Triangle t, double x, double y) {
-		// TODO dopsat vlastni
-		return shadingGouard(t, x, y);
-	}
-	
-	
-	/**
-	 * Vrati barvu bodu trojuhelniku pro jeho typ stinovani
-	 * @param t Trojuhelnik
-	 * @param x Souradnice x
-	 * @param y Souradnice y
-	 * @return Barva bodu
-	 */
-	private ColorRGBZ shadingPoint(Triangle t, double x, double y) {
-		// TODO vratit
-		if (true)
-			return shadingConst(t, x, y);
-		
-		if (t.shadingType == ShadingType.GOUARD)
-			return shadingGouard(t, x, y);
-		if (t.shadingType == ShadingType.PHONG)
-			return shadingPhong(t, x, y);
-		if (t.shadingType == ShadingType.CONST)
-			return shadingConst(t, x, y);
-		return shadingGouard(t, x, y);
-	}
-	
-	
-	/**
-	 * Projde vsechny body trojuhelniku a uplatni na ne urcene stinovani
-	 * s vystupem do mapy pixelu
+	 * Vystinuje trojuhelnik Gouardovou metodou do mapy pixelu
 	 * @param map Mapa pixelu
 	 * @param t Trojuhelnik
 	 */
-	private void shadingAllPoints(PixelMap map, Triangle t) {
+	private void shadingGouard(PixelMap map, Triangle t) {
 		Vector3D pA = new Vector3D(t.p1),
 				pB = new Vector3D(t.p2),
 				pC = new Vector3D(t.p3),
-				pTmp = new Vector3D(),
-				pMiddle = new Vector3D();
+				dirAB = new Vector3D(),
+				dir = new Vector3D(),
+				vAB = new Vector3D(),
+				v = new Vector3D();
 		ColorRGBZ cA = new ColorRGBZ(t.c1, t.p1.getZ()),
 				cB = new ColorRGBZ(t.c2, t.p2.getZ()),
 				cC = new ColorRGBZ(t.c3, t.p3.getZ()),
-				cTmp = new ColorRGBZ();
-		double xStartDir, xEndDir, d;
+				cDirAB = new ColorRGBZ(),
+				cDir = new ColorRGBZ(),
+				cAB = new ColorRGBZ(),
+				c = new ColorRGBZ();
+		int partsAB, parts;
 		
-		// setrideni podle y:
-		if (pA.getY() > pB.getY()) {
-			pTmp.set(pA); pA.set(pB); pB.set(pTmp);
-			cTmp.set(cA); cA.set(cB); cB.set(cTmp);
-		}
-		if (pA.getY() > pC.getY()) {
-			pTmp.set(pA); pA.set(pC); pC.set(pTmp);
-			cTmp.set(cA); cA.set(cC); cC.set(cTmp);
-		}
+		// od A k B:
+		vAB.set(pB); vAB.sub(pA);
+		partsAB = (int)Math.ceil(vAB.length()) * 2;
+			// * 2 => ciste stinovani, bez "cerneho antialiasingu"
+		dirAB.set(pB); dirAB.sub(pA); dirAB.mul(1.0 / partsAB);
+		vAB.set(pA);
 		
-		// setrideni podle x
-		if (pC.getX() > pB.getX()) {
-			pTmp.set(pB); pB.set(pC); pC.set(pTmp);
-			cTmp.set(cB); cB.set(cC); cC.set(cTmp);
-		}
+		cDirAB.set(cB); cDirAB.sub(cA); cDirAB.mul(1.0 / partsAB);
+		cAB.set(cA);
 		
-		
-		// bod mezi A a C delici radkovani, maximalne vsak ve vysce B
-		pMiddle.set(pC); pMiddle.sub(pA);
-		pMiddle.mul(Math.min(1, (pB.getY() - pA.getY()) /
-				(pC.getY() - pA.getY())));
-		pMiddle.add(pA);
-		
-		// spodni radkovani (odzdola nahoru):
-		xStartDir = (pMiddle.getX() - pA.getX()) /
-				(pMiddle.getY() - pA.getY());
-		xEndDir = (pB.getX() - pA.getX()) /
-				(pB.getY() - pA.getY());
-		if (xEndDir < xStartDir) {  // x musi rust
-			d = xStartDir; xStartDir = xEndDir; xEndDir = d;
-		}
-		for (double y = pA.getY(), xStart = pA.getX(), xEnd = pA.getX();
-				y <= pMiddle.getY();
-				y++, xStart += xStartDir, xEnd += xEndDir)
-			for (int x = (int)xStart; x <= (int)Math.ceil(xEnd); x++)
-				map.setPixel(x, (int)y, shadingPoint(t, x, y));
-		
-		
-		// nyni setrideni podle y
-		if (pC.getY() < pB.getY()) {
-			pTmp.set(pB); pB.set(pC); pC.set(pTmp);
-			cTmp.set(cB); cB.set(cC); cC.set(cTmp);
+		for (int i = 0; i <= partsAB; i++) {
+			// od C k AB:
+			v.set(vAB); v.sub(pC);
+			parts = (int)Math.ceil(v.length());
+			dir.set(vAB); dir.sub(pC); dir.mul(1.0 / parts);
+			v.set(pC);
+			
+			cDir.set(cAB); cDir.sub(cC); cDir.mul(1.0 / parts);
+			c.set(cC);
+			
+			for (int j = 0; j <= parts; j++) {
+				map.setPixel((int)v.getX(), (int)v.getY(), c);
+				v.add(dir); c.add(cDir);
+			}
+			
+			vAB.add(dirAB); cAB.add(cDirAB);
 		}
 		
-		// prepocitani prostredniho bodu
-		pMiddle.set(pC); pMiddle.sub(pA);
-		pMiddle.mul(Math.min(1, (pB.getY() - pA.getY()) /
-				(pC.getY() - pA.getY())));
-		pMiddle.add(pA);
+	}  // shadingGouard
+	
+	
+	/**
+	 * Vystinuje trojuhelnik Phongovou metodou do mapy pixelu
+	 * @param map Mapa pixelu
+	 * @param t Trojuhelnik
+	 */
+	private void shadingPhong(PixelMap map, Triangle t) {
+		Vector3D pA = new Vector3D(t.p1),  // body
+				pB = new Vector3D(t.p2),
+				pC = new Vector3D(t.p3),
+				
+				dirAB = new Vector3D(),  // vektory pro polohu uvnitr
+				dir = new Vector3D(),
+				vAB = new Vector3D(),
+				v = new Vector3D(),
+				
+				nA = new Vector3D(t.n1),  // normaly
+				nB = new Vector3D(t.n2),
+				nC = new Vector3D(t.n3),
+				
+				nDirAB = new Vector3D(),  // vektory pro zmenu normaly
+				nDir = new Vector3D(),
+				nAB = new Vector3D(),
+				n = new Vector3D();
+		int partsAB, parts;
 		
-		// horni radkovani (odshora dolu):
-		xStartDir = -(pC.getX() - pMiddle.getX()) /
-				(pC.getY() - pMiddle.getY());
-		xEndDir = -(pC.getX() - pB.getX()) /
-				(pC.getY() - pB.getY());
-		if (xEndDir < xStartDir) {  // x musi rust
-			d = xStartDir; xStartDir = xEndDir; xEndDir = d;
+		// od A k B:
+		vAB.set(pB); vAB.sub(pA);
+		partsAB = (int)Math.ceil(vAB.length()) * 2;
+			// * 2 => ciste stinovani, bez "cerneho antialiasingu"
+		dirAB.set(pB); dirAB.sub(pA); dirAB.mul(1.0 / partsAB);
+		vAB.set(pA);
+		
+		nDirAB.set(nB); nDirAB.sub(nA); nDirAB.mul(1.0 / partsAB);
+		nAB.set(nA);
+		
+		for (int i = 0; i <= partsAB; i++) {
+			// od C k AB:
+			v.set(vAB); v.sub(pC);
+			parts = (int)Math.ceil(v.length());
+			dir.set(vAB); dir.sub(pC); dir.mul(1.0 / parts);
+			v.set(pC);
+			
+			nDir.set(nAB); nDir.sub(nC); nDir.mul(1.0 / parts);
+			n.set(nC);
+			
+			for (int j = 0; j <= parts; j++) {
+				ColorRGB c = new ColorRGB();
+				Vector3Dh ph = new Vector3Dh(v.getX(), v.getY(), v.getZ(), 1);
+				ph.mul(cam.getIM());
+				ph.normalizeW();
+				
+				Iterator<Light> it = lights.iterator();
+				while (it.hasNext()) {
+					Light light = it.next();
+					c.add(light.myLight(cam.PRP, new Vector3D(ph), n,
+							t.diff, t.spec));
+				}
+				
+				map.setPixel((int)v.getX(), (int)v.getY(),
+						new ColorRGBZ(c, v.getZ()));
+				v.add(dir); n.add(nDir);
+			}
+			
+			vAB.add(dirAB); nAB.add(nDirAB);
 		}
-		for (double y = pC.getY(), xStart = pC.getX(), xEnd = pC.getX();
-				y >= pMiddle.getY();
-				y--, xStart += xStartDir, xEnd += xEndDir)
-			for (int x = (int)xStart; x <= (int)Math.ceil(xEnd); x++)
-				map.setPixel(x, (int)y, shadingPoint(t, x, y));
 		
-		
-		// prostredni linka nakonec
-		pTmp.set(pB); pTmp.sub(pMiddle);
-		for (int part = 0; part < pTmp.length(); part++) {
-			Vector3D v = new Vector3D(pTmp);
-			v.mul(part / pTmp.length());
-			v.add(pMiddle);
-			map.setPixel((int)v.getX(), (int)v.getY(),
-					shadingPoint(t, v.getX(), v.getY()));
-		}
-		
-	}  // shadingAllPoints
+	}  // shadingPhong
 	
 }
