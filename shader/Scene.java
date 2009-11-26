@@ -293,6 +293,8 @@ public class Scene {
 			for (int it = 0; it < triangles.size();) {
 				t = triangles.get(it);
 
+				// TODO prepsat na booleany
+				
 				// vsechny body trojuhelniku uvnitr
 				if (t.p1.dot(plane) <= 0
 						&& t.p2.dot(plane) <= 0
@@ -611,6 +613,7 @@ public class Scene {
 			
 			for (int j = 0; j <= parts; j++) {
 				ColorRGB c = new ColorRGB();
+				// TODO vratit body zpatky pres mapToDC
 				Vector3Dh ph = new Vector3Dh(v.getX(), v.getY(), v.getZ(), 1);
 				ph.mul(cam.getIM());
 				ph.normalizeW();

@@ -139,9 +139,7 @@ public class PLight implements Light {
 				// smer pozorovani
 				v = new Vector3D(),
 				// pomocny vektor
-				pt = new Vector3D();
-		// pomocny 3Dh vektor
-		Vector3Dh ph = new Vector3Dh();
+				u = new Vector3D();
 		double
 				// koeficient utlumu
 				fatt,
@@ -152,19 +150,22 @@ public class PLight implements Light {
 				// kosinus uhlu mezi odrazenym paprskem a smerem pozorovani
 				cosalpha;
 		
-		// TODO doplnit pocitani s PRP
-		
 		l.set(p); l.sub(point);
 		d = l.length();
 		fatt = 1.0 / (a.getX() + a.getY() * d + a.getZ() * d * d);
 		l.normalize(); nor.normalize();
-		cosalpha = l.dot(nor);
+		cosfi = l.dot(nor);
 		color.set(c);
 		color.mul(fatt);
-		color.mul(cosalpha);
+		color.mul(cosfi);
 		color.mul(diff);
 		
-		cosalpha = Math.pow(cosalpha, 8);
+		r.set(nor); r.mul(2); r.mul(cosfi); r.sub(l);
+		v.set(prp); v.sub(point);
+		r.normalize(); v.normalize();
+		cosalpha = v.dot(r);
+		
+		cosalpha = Math.pow(cosalpha, 10);
 		tmp.set(c);
 		tmp.mul(fatt);
 		tmp.mul(cosalpha);
