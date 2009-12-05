@@ -1,4 +1,36 @@
+/**
+ * Balik trid starajicich se predevsim o uchovani sceny a jeji zpracovani
+ */
 package shader;
+
+/**
+ * @mainpage
+ * 
+ * <center>
+ * <p>Toto je "Shader", standardní zobrazovací řetězec.</p>
+ * 
+ * Vznikl jako projekt do předmětu
+ * <a href="http://mrl.cs.vsb.cz/people/sojka/pg1_course.html">
+ * Počítačová grafika</a>
+ * na <a href="http://vsb.cz">VŠB-TUO</a>
+ * podle již
+ * <a href="http://www.cs.vsb.cz/gajdos/soubory/pg/shader2%20-%20VS2008.zip">
+ * předpřipravené šablony</a>
+ * od Jana Plačka z roku 2003 pro MS VS (??).
+ * 
+ * Fungováním vychází ze skript
+ * <a href="http://mrl.cs.vsb.cz/people/sojka/pocitacova_grafikaII.pdf">
+ * Počítačová grafika II</a>
+ * od <a href="http://www.cs.vsb.cz/sojka">doc. Dr. Ing. Edy Sojky</a>.
+ * 
+ * Pod Eclipsem v jazyku Java sestavil
+ * <a href="mailto:gar.o@post.cz">Ondřej Garncarz</a> na podzim 2009.
+ * 
+ * Zbytek dokumentace i komentáře jsou raději již bez diakritiky, pardon.
+ * 
+ * @image html http://i32.photobucket.com/albums/d31/AwesomeWelles/columbo2.jpg
+ * </center>
+ */
 
 import geom.*;
 

@@ -1,3 +1,6 @@
+/**
+ * Balik trid popisujicich svetlo
+ */
 package light;
 
 import geom.*;

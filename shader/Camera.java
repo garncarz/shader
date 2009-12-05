@@ -27,10 +27,18 @@ public class Camera {
 	 */
 	public Vector3D PRP = new Vector3D();
 	
-	/**
-	 * Definice zorneho jehlanu
-	 */
-	public double Umin, Umax, Vmin, Vmax;
+	public double
+			/** Minimalni horizontalni souradnice zorneho jehlanu */
+			Umin,
+			
+			/** Maximalni horizontalni souradnice zorneho jehlanu */
+			Umax,
+			
+			/** Minimalni vertikalni souradnice zorneho jehlanu */
+			Vmin,
+			
+			/** Maximalni vertikalni souradnice zorneho jehlanu */
+			Vmax;
 	
 	/**
 	 * Predni orezavaci plocha
@@ -42,26 +50,48 @@ public class Camera {
 	 */
 	private double B;
 	
-	/**
-	 * Transformacni matice
-	 */
-	private Matrix44 M = new Matrix44(),
+	private Matrix44
+			/** Transformacni matice - celkova */
+			M = new Matrix44(),
+			
+			/** Transformacni matice - prvni */
 			M1 = new Matrix44(),
+			
+			/** Transformacni matice - druha */
 			M2 = new Matrix44(),
+			
+			/** Transformacni matice - treti */
 			M3 = new Matrix44(),
+			
+			/** Transformacni matice - ctvrta */
 			M4 = new Matrix44(),
+			
+			/** Transformacni matice - pata */
 			M5 = new Matrix44(),
+			
+			/** Transformacni matice - sesta */
 			M6 = new Matrix44();
 	
-	/**
-	 * Inverzni transformacni matice
-	 */
-	private Matrix44 IM = new Matrix44(),
+	private Matrix44
+			/** Inverzni transformacni matice - celkova */
+			IM = new Matrix44(),
+			
+			/** Inverzni transformacni matice - prvni */
 			IM1 = new Matrix44(),
+			
+			/** Inverzni transformacni matice - druha */
 			IM2 = new Matrix44(),
+			
+			/** Inverzni transformacni matice - treti */
 			IM3 = new Matrix44(),
+			
+			/** Inverzni transformacni matice - ctvrta */
 			IM4 = new Matrix44(),
+			
+			/** Inverzni transformacni matice - pata */
 			IM5 = new Matrix44(),
+			
+			/** Inverzni transformacni matice - sesta */
 			IM6 = new Matrix44();
 	
 	

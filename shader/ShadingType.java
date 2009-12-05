@@ -1,7 +1,7 @@
 package shader;
 
 /**
- * Typy stinovani
+ * Typ stinovani
  */
 public enum ShadingType {
 	

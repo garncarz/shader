@@ -16,13 +16,17 @@ public class Definitions {
 	 */
 	public static final double REAL_MAX = Double.MAX_VALUE;
 	
-	/**
-	 * Definice oblasti na vystupnim zarizeni 
-	 */
 	public static final int
+			/** Minimalni x-ova souradnice vystupniho zarizeni */
 			PXMIN = 0,
+			
+			/** Minimalni y-ova souradnice vystupniho zarizeni */
 			PYMIN = 0,
+			
+			/** Maximalni x-ova souradnice vystupniho zarizeni */
 			PXMAX = 700,
+			
+			/** Maximalni y-ova souradnice vystupniho zarizeni */
 			PYMAX = 700;
 	
 }

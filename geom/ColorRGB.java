@@ -1,3 +1,6 @@
+/**
+ * Balik trid pro uchovani geometrickych udaju jako jsou vektory, matice, barva
+ */
 package geom;
 
 /**

@@ -53,24 +53,6 @@ public class Cylinder extends GeomObject {
 	}
 	
 	
-	// TODO zrejme smazat
-	/**
-	 * Vraci souradnici bodu na plasti valce
-	 * @param m Horizontalni jednotky (pocet casti kruhu)
-	 * @param n Vertikalni jednotky
-	 * @param steph Krok horizontalni stupnice (cast kruhu - uhel)
-	 * @param stepv Krok vertikalni stupnice
-	 * @return Souradnice bodu na plasti
-	 */
-	/*
-	public Vector3D coordinate(int m, int n, double steph, double stepv) {
-		double fi = m * steph;
-		return new Vector3D(radius * Math.cos(fi), radius * Math.sin(fi),
-				-height / 2 + n * stepv);
-	}
-	*/
-	
-	
 	/**
 	 * Trianguluje valec
 	 */

@@ -8,18 +8,24 @@ import geom.*;
  */
 public class Triangle {
 	
-	/**
-	 * Vrchol trojuhelniku
-	 */
-	public Vector3Dh p1 = new Vector3Dh(),
+	public Vector3Dh
+			/** Prvni vrchol trojuhelniku */
+			p1 = new Vector3Dh(),
+			
+			/** Druhy vrchol trojuhelniku */
 			p2 = new Vector3Dh(),
+			
+			/** Treti vrchol trojuhelniku */
 			p3 = new Vector3Dh();
 	
-	/**
-	 * Normala ve vrcholu trojuhelniku
-	 */
-	public Vector3D n1 = new Vector3D(),
+	public Vector3D
+			/** Normala v prvnim vrcholu trojuhelniku */
+			n1 = new Vector3D(),
+			
+			/** Normala v druhem vrcholu trojuhelniku */
 			n2 = new Vector3D(),
+			
+			/** Normala v tretim vrcholu trojuhelniku */
 			n3 = new Vector3D();
 	
 	/**
@@ -27,11 +33,14 @@ public class Triangle {
 	 */
 	public Vector3D n = new Vector3D();
 	
-	/**
-	 * Barva ve vrcholu trojuhelniku
-	 */
-	public ColorRGB c1 = new ColorRGB(),
+	public ColorRGB
+			/** Barva prvniho vrcholu trojuhelniku */
+			c1 = new ColorRGB(),
+			
+			/** Barva druheho vrcholu trojuhelniku */
 			c2 = new ColorRGB(),
+			
+			/** Barva tretiho vrcholu trojuhelniku */
 			c3 = new ColorRGB();
 	
 	/**

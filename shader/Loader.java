@@ -556,7 +556,7 @@ public class Loader {
 	
 	/**
 	 * Doplni scenu daty ze souboru 
-	 * @param file Soubor
+	 * @param filename Jmeno souboru
 	 * @param scene Scena
 	 * @throws Exception Chyba nacitani ci parsovani
 	 */

@@ -46,26 +46,6 @@ public class Sphere extends GeomObject {
 	}
 	
 	
-	// TODO zrejme smazat
-	/**
-	 * Vraci souradnici bodu na kouli
-	 * @param m Horizontalni jednotky (pocet casti kruhu)
-	 * @param n Vertikalni jednotky (pocet casti kruhu)
-	 * @param steph Krok horizontalni stupnice (cast kruhu - uhel)
-	 * @param stepv Krok vertikalni stupnice (cast kruhu - uhel)
-	 * @return Souradnice bodu na kouli
-	 */
-	/**
-	public Vector3D coordinate(int m, int n, double steph, double stepv) {
-		double fi = m * steph;
-		double psi = -Math.PI / 2 + n * stepv;
-		return new Vector3D(radius * Math.cos(fi) * Math.cos(psi),
-				radius * Math.sin(fi) * Math.cos(psi),
-				radius * Math.sin(psi));
-	}
-	*/
-	
-	
 	/**
 	 * Trianguluje kouli
 	 */

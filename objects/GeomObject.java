@@ -1,3 +1,6 @@
+/**
+ * Balik trid reprezentujicich geometricka telesa 
+ */
 package objects;
 
 import geom.*;
@@ -6,7 +9,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 
 import shader.ShadingType;
-
 
 /**
  * Zakladni geometricke teleso

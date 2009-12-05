@@ -293,41 +293,39 @@ public class Scene {
 			for (int it = 0; it < triangles.size();) {
 				t = triangles.get(it);
 
-				// TODO prepsat na booleany
+				boolean b1 = t.p1.dot(plane) > 0,
+						b2 = t.p2.dot(plane) > 0,
+						b3 = t.p3.dot(plane) > 0;
 				
 				// vsechny body trojuhelniku uvnitr
-				if (t.p1.dot(plane) <= 0
-						&& t.p2.dot(plane) <= 0
-						&& t.p3.dot(plane) <= 0) {
+				if (!b1 && !b2 && !b3) {
 					it++;
 					continue;
 				}
 				
 				// vsechny tri body mimo
-				else if (t.p1.dot(plane) > 0
-						&& t.p2.dot(plane) > 0
-						&& t.p3.dot(plane) > 0)
+				else if (b1 && b2 && b3)
 					;
 				
 				// dva body mimo
-				else if (t.p1.dot(plane) > 0 && t.p2.dot(plane) > 0)
+				else if (b1 && b2)
 					clipTwoPoints(plane, t.p3, t.n3, t.c3, t.p1, t.n1, t.c1,
 							t.p2, t.n2, t.c2, t.diff, t.spec);
-				else if (t.p1.dot(plane) > 0 && t.p3.dot(plane) > 0)
+				else if (b1 && b3)
 					clipTwoPoints(plane, t.p2, t.n2, t.c2, t.p3, t.n3, t.c3,
 							t.p1, t.n1, t.c1, t.diff, t.spec);
-				else if (t.p2.dot(plane) > 0 && t.p3.dot(plane) > 0)
+				else if (b2 && b3)
 					clipTwoPoints(plane, t.p1, t.n1, t.c1, t.p2, t.n2, t.c2,
 							t.p3, t.n3, t.c3, t.diff, t.spec);
 				
 				// jeden bod mimo
-				else if (t.p1.dot(plane) < 0)
+				else if (b1)
 					clipOnePoint(plane, t.p1, t.n1, t.c1, t.p2, t.n2, t.c2,
 							t.p3, t.n3, t.c3, t.diff, t.spec);
-				else if (t.p2.dot(plane) < 0)
+				else if (b2)
 					clipOnePoint(plane, t.p2, t.n2, t.c2, t.p3, t.n3, t.c3,
 							t.p1, t.n1, t.c1, t.diff, t.spec);
-				else if (t.p3.dot(plane) < 0)
+				else if (b3)
 					clipOnePoint(plane, t.p3, t.n3, t.c3, t.p1, t.n1, t.c1,
 							t.p2, t.n2, t.c2, t.diff, t.spec);
 				
@@ -355,10 +353,10 @@ public class Scene {
 	
 	/**
 	 * Zmapuje na vystupni zarizeni
-	 * @param Pxmin
-	 * @param Pymin
-	 * @param Pxmax
-	 * @param Pymax
+	 * @param Pxmin Minimalni x-ova souradnice vystupniho zarizeni
+	 * @param Pymin Minimalni y-ova souradnice vystupniho zarizeni
+	 * @param Pxmax Maximalni x-ova souradnice vystupniho zarizeni
+	 * @param Pymax Maximalni y-ova souradnice vystupniho zarizeni
 	 */
 	public void mapToDC(double Pxmin, double Pymin,
 			double Pxmax, double Pymax) {
@@ -379,6 +377,31 @@ public class Scene {
 			t.p3.setX((t.p3.getX() - cam.getUmin()) * scaleX + Pxmin);
 			t.p3.setY((t.p3.getY() - cam.getVmin()) * scaleY + Pymin);
 		}
+	}
+	
+	
+	/**
+	 * Vrati odmapovany bod z vystupniho zarizeni,
+	 * vhodne pro Phongovo osvetleni
+	 * @param from Namapovany bod
+	 * @param Pxmin Minimalni x-ova souradnice vystupniho zarizeni
+	 * @param Pymin Minimalni y-ova souradnice vystupniho zarizeni
+	 * @param Pxmax Maximalni x-ova souradnice vystupniho zarizeni
+	 * @param Pymax Maximalni y-ova souradnice vystupniho zarizeni
+	 * @return Odmapovany bod
+	 */
+	private Vector3D unmapFromDC(Vector3D from, double Pxmin, double Pymin,
+			double Pxmax, double Pymax) {
+		Vector3D p = new Vector3D();
+		
+		double scaleX = (Pxmax - Pxmin) / (cam.getUmax() - cam.getUmin());
+		double scaleY = (Pymax - Pymin) / (cam.getVmax() - cam.getVmin());
+		
+		p.setX((from.getX() - Pxmin) / scaleX + cam.getUmin());
+		p.setY((from.getY() - Pymin) / scaleY + cam.getVmin());
+		p.setZ(from.getZ());
+
+		return p;
 	}
 	
 	
@@ -613,16 +636,19 @@ public class Scene {
 			
 			for (int j = 0; j <= parts; j++) {
 				ColorRGB c = new ColorRGB();
-				// TODO vratit body zpatky pres mapToDC
-				Vector3Dh ph = new Vector3Dh(v.getX(), v.getY(), v.getZ(), 1);
+				
+				Vector3Dh ph = new Vector3Dh(unmapFromDC(v, Definitions.PXMIN,
+						Definitions.PYMIN, Definitions.PXMAX,
+						Definitions.PYMAX));
+				ph.setW(1);
 				ph.mul(cam.getIM());
 				ph.normalizeW();
+				Vector3D p = new Vector3D(ph);
 				
 				Iterator<Light> it = lights.iterator();
 				while (it.hasNext()) {
 					Light light = it.next();
-					c.add(light.myLight(cam.PRP, new Vector3D(ph), n,
-							t.diff, t.spec));
+					c.add(light.myLight(cam.PRP, p, n, t.diff, t.spec));
 				}
 				
 				map.setPixel((int)v.getX(), (int)v.getY(),
