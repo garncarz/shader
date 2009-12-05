@@ -78,8 +78,6 @@ public class Scene {
 			// kladny - nevidim
 			// zaporny - vidim
 			
-			// TODO je toto dobre?
-			
 			pth.set(t.p1);
 			pth.normalizeW();
 			pt.set(pth);
@@ -143,12 +141,13 @@ public class Scene {
 	 * @param c3 Barva tretiho vrcholu
 	 * @param diff Difuzni koeficient odrazu
 	 * @param spec Zrcadlovy koeficient odrazu
+	 * @param shading Typ stinovani
 	 */
 	private void clipOnePoint(Vector3Dh plane,
 			Vector3Dh p1, Vector3D n1, ColorRGB c1,
 			Vector3Dh p2, Vector3D n2, ColorRGB c2,
 			Vector3Dh p3, Vector3D n3, ColorRGB c3,
-			ColorRGB diff, ColorRGB spec) {
+			ColorRGB diff, ColorRGB spec, ShadingType shading) {
 		Vector3Dh p12 = new Vector3Dh(),
 				p13 = new Vector3Dh(),
 				tmp = new Vector3Dh();
@@ -171,17 +170,13 @@ public class Scene {
 		t1.p1.set(p12); t1.n1.set(n12); t1.c1.set(c12);
 		t1.p2.set(p2); t1.n2.set(n2); t1.c2.set(c2);
 		t1.p3.set(p3); t1.n3.set(n3); t1.c3.set(c3);
-		t1.diff.set(diff); t1.spec.set(spec);
+		t1.diff.set(diff); t1.spec.set(spec); t1.shadingType = shading;
 		
 		a.set(t1.p2); a.sub(t1.p1);
 		b.set(t1.p3); b.sub(t1.p1);
 		t1.n.set(a); t1.n.cross(b); t1.n.normalize();
 		
-		// pridani v pripade neporuseni roviny
-		if (t1.p1.dot(plane) <= 0
-				&& t1.p2.dot(plane) <= 0
-				&& t1.p3.dot(plane) <= 0)
-			triangles.add(t1);
+		triangles.add(t1);
 		
 		
 		tmp.set(p1); tmp.sub(p3);
@@ -193,17 +188,13 @@ public class Scene {
 		t2.p1.set(p12); t2.n1.set(n12); t2.c1.set(c12);
 		t2.p2.set(p3); t2.n2.set(n3); t2.c2.set(c3);
 		t2.p3.set(p13); t2.n3.set(n13); t2.c3.set(c13);
-		t2.diff.set(diff); t2.spec.set(spec);
+		t2.diff.set(diff); t2.spec.set(spec); t2.shadingType = shading;
 		
 		a.set(t2.p2); a.sub(t2.p1);
 		b.set(t2.p3); b.sub(t2.p1);
 		t2.n.set(a); t2.n.cross(b); t2.n.normalize();
 		
-		// pridani v pripade neporuseni roviny
-		if (t2.p1.dot(plane) <= 0
-				&& t2.p2.dot(plane) <= 0
-				&& t2.p3.dot(plane) <= 0)
-			triangles.add(t2);
+		triangles.add(t2);
 	}  // clipOnePoint
 	
 	
@@ -222,12 +213,13 @@ public class Scene {
 	 * @param c3 Barva tretiho vrcholu
 	 * @param diff Difuzni koeficient odrazu
 	 * @param spec Zrcadlovy koeficient odrazu
+	 * @param shading Typ stinovani
 	 */
 	private void clipTwoPoints(Vector3Dh plane,
 			Vector3Dh p1, Vector3D n1, ColorRGB c1,
 			Vector3Dh p2, Vector3D n2, ColorRGB c2,
 			Vector3Dh p3, Vector3D n3, ColorRGB c3,
-			ColorRGB diff, ColorRGB spec) {
+			ColorRGB diff, ColorRGB spec, ShadingType shading) {
 		Vector3Dh p12 = new Vector3Dh(),
 				p13 = new Vector3Dh(),
 				tmp = new Vector3Dh();
@@ -252,20 +244,16 @@ public class Scene {
 		n13.set(n3); n13.sub(n1); n13.mul(part); n13.add(n1);
 		c13.set(c3); c13.sub(c1); c13.mul(part); c13.add(c1);
 		
-		t.p1.set(p13); t.n1.set(n13); t.c1.set(c13);
-		t.p2.set(p1); t.n2.set(n1); t.c2.set(c1);
-		t.p3.set(p12); t.n3.set(n12); t.c3.set(c12);
-		t.diff.set(diff); t.spec.set(spec);
+		t.p1.set(p1); t.n1.set(n1); t.c1.set(c1);
+		t.p2.set(p12); t.n2.set(n12); t.c2.set(c12);
+		t.p3.set(p13); t.n3.set(n13); t.c3.set(c13);
+		t.diff.set(diff); t.spec.set(spec); t.shadingType = shading;
 		
 		a.set(t.p2); a.sub(t.p1);
 		b.set(t.p3); b.sub(t.p1);
 		t.n.set(a); t.n.cross(b); t.n.normalize();
 		
-		// pridani v pripade neporuseni roviny
-		if (t.p1.dot(plane) <= 0
-				&& t.p2.dot(plane) <= 0
-				&& t.p3.dot(plane) <= 0)
-			triangles.add(t);
+		triangles.add(t);
 	}  // clipTwoPoints
 	
 	
@@ -310,24 +298,24 @@ public class Scene {
 				// dva body mimo
 				else if (b1 && b2)
 					clipTwoPoints(plane, t.p3, t.n3, t.c3, t.p1, t.n1, t.c1,
-							t.p2, t.n2, t.c2, t.diff, t.spec);
+							t.p2, t.n2, t.c2, t.diff, t.spec, t.shadingType);
 				else if (b1 && b3)
 					clipTwoPoints(plane, t.p2, t.n2, t.c2, t.p3, t.n3, t.c3,
-							t.p1, t.n1, t.c1, t.diff, t.spec);
+							t.p1, t.n1, t.c1, t.diff, t.spec, t.shadingType);
 				else if (b2 && b3)
 					clipTwoPoints(plane, t.p1, t.n1, t.c1, t.p2, t.n2, t.c2,
-							t.p3, t.n3, t.c3, t.diff, t.spec);
+							t.p3, t.n3, t.c3, t.diff, t.spec, t.shadingType);
 				
 				// jeden bod mimo
 				else if (b1)
 					clipOnePoint(plane, t.p1, t.n1, t.c1, t.p2, t.n2, t.c2,
-							t.p3, t.n3, t.c3, t.diff, t.spec);
+							t.p3, t.n3, t.c3, t.diff, t.spec, t.shadingType);
 				else if (b2)
 					clipOnePoint(plane, t.p2, t.n2, t.c2, t.p3, t.n3, t.c3,
-							t.p1, t.n1, t.c1, t.diff, t.spec);
+							t.p1, t.n1, t.c1, t.diff, t.spec, t.shadingType);
 				else if (b3)
 					clipOnePoint(plane, t.p3, t.n3, t.c3, t.p1, t.n1, t.c1,
-							t.p2, t.n2, t.c2, t.diff, t.spec);
+							t.p2, t.n2, t.c2, t.diff, t.spec, t.shadingType);
 				
 				// odstraneni puvodniho trojuhelniku, ktery vycuhoval
 				triangles.remove(it);

@@ -121,8 +121,6 @@ public class Matrix44 {
 		set(newM);
 	}
 	
-	// TODO nechat si vypsat vysledky z VS, srovnat (u nasobeni matic)
-	
 	
 	/**
 	 * Transponuje matici
