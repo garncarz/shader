@@ -1,0 +1,55 @@
+<project name="Shader" default="build" basedir=".">
+
+	<target name="compile">
+		<mkdir dir="classes" />
+		<javac srcdir="." destdir="classes">
+			<include name="**/*.java" />
+		</javac>
+	</target>
+	
+	
+	<target name="dist" depends="compile">
+		<jar destfile="shader.jar">
+			<fileset dir=".">
+				<include name="classes/**/*" />
+				<include name="**/*.java" />
+				<include name="Doxyfile" />
+				<include name="build.xml" />
+			</fileset>
+			<manifest>
+				<attribute name="Class-Path"
+					value="classes/" />
+				<attribute name="Main-Class"
+					value="shader.Shader" />
+			</manifest>
+		</jar>
+	</target>
+	
+	
+	<target name="doc">
+		<exec executable="doxygen" />
+	</target>
+	
+	
+	<target name="build" depends="dist,doc" />
+	
+	
+	<target name="run" depends="dist">
+		<java jar="shader.jar" fork="true" />
+	</target>
+
+
+	<target name="clean">
+		<delete includeEmptyDirs="true" quiet="true">
+			<fileset dir="classes" />
+			<fileset dir="doc" />
+			<fileset dir=".">
+				<include name="shader.jar" />
+				<include name="**/*.class" />
+				<include name="**/*.bmp" />
+			</fileset>
+		</delete>
+	</target>
+
+</project>
+
