@@ -31,7 +31,7 @@
 	</target>
 	
 	
-	<target name="build" depends="dist,doc" />
+	<target name="build" depends="dist, doc" />
 	
 	
 	<target name="run" depends="dist">

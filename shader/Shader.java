@@ -15,7 +15,7 @@ package shader;
  * na <a href="http://vsb.cz">VŠB-TUO</a>
  * podle již
  * <a href="http://www.cs.vsb.cz/gajdos/soubory/pg/shader2%20-%20VS2008.zip">
- * předpřipravené šablony</a>
+ * předpřipravené C++ šablony</a>
  * od Jana Plačka z roku 2003 pro MS VS (??).
  * 
  * Fungováním vychází ze skript
