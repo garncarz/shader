@@ -1,42 +1,67 @@
 <?xml version="1.0"?>
 <scene>
+    <!-- Camera setup for close view -->
     <camera
-        vrpX="0" vrpY="-15" vrpZ="5"
-        vpnX="0" vpnY="1" vpnZ="0"
+        vrpX="10" vrpY="-2" vrpZ="8"
+        vpnX="0" vpnY="0" vpnZ="0"
         vupX="0" vupY="0" vupZ="1"
-        prpX="0" prpY="0" prpZ="2"
-        Umin="-6" Vmin="-4" Umax="6" Vmax="4"
-        front="-2"
-        back="-30"
+        prpX="0" prpY="0" prpZ="1"
+        Umin="-1.5" Vmin="-1.2" Umax="1.5" Vmax="1.2"
+        front="0.5"
+        back="-40"
     />
     
+    <!-- Strong ambient lighting -->
     <alight
-        r="1" g="1" b="1" s="0.4"
+        r="1" g="1" b="1" s="0.6"
+    />
+    
+    <!-- Multiple strong point lights -->
+    <plight
+        x="5" y="2" z="8"
+        r="1" g="1" b="1" s="25"
+        attX="1" attY="0.1" attZ="0.2"
     />
     
     <plight
-        x="-5" y="-8" z="8"
+        x="5" y="-8" z="8"
         r="1" g="1" b="1" s="25"
-        attX="1" attY="0.05" attZ="0.01"
+        attX="1" attY="0.1" attZ="0.2"
     />
     
-    <!-- Large plane with minimal tessellation - demonstrates the "one-colored" issue -->
+    <plight
+        x="-5" y="-3" z="8"
+        r="1" g="1" b="1" s="25"
+        attX="1" attY="0.1" attZ="0.2"
+    />
+    
+    <!-- Low tessellation plane - left -->
     <block
-        x="0" y="0" z="0"
-        l="12" w="8" h="0.5"
+        x="-6" y="0" z="0"
+        l="6" w="6" h="1"
         dl="1" dw="1" dh="1"
-        diffR="0.8" diffG="0.4" diffB="0.2" diffS="1.0"
-        specR="0.9" specG="0.9" specB="0.9" specS="0.8"
+        diffR="0" diffG="0.7" diffB="1" diffS="0.8"
+        specR="0" specG="0.7" specB="1" specS="0.8"
         shading="GOUARD"
     />
     
-    <!-- Same plane with better tessellation -->
+    <!-- High tessellation plane - right -->
     <block
-        x="0" y="6" z="0"
-        l="12" w="8" h="0.5"
+        x="6" y="0" z="0"
+        l="6" w="6" h="1"
         dl="10" dw="10" dh="1"
-        diffR="0.8" diffG="0.4" diffB="0.2" diffS="1.0"
-        specR="0.9" specG="0.9" specB="0.9" specS="0.8"
+        diffR="0" diffG="0.7" diffB="1" diffS="0.8"
+        specR="0" specG="0.7" specB="1" specS="0.8"
+        shading="GOUARD"
+    />
+    
+    <!-- Base platform -->
+    <block
+        x="0" y="0" z="-2"
+        l="20" w="12" h="0.5"
+        dl="4" dw="3" dh="1"
+        diffR="1" diffG="1" diffB="0.5" diffS="0.8"
+        specR="1" specG="1" specB="0.5" specS="0.8"
         shading="GOUARD"
     />
 </scene>

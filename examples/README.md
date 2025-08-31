@@ -11,13 +11,15 @@ This directory contains example XML scene files and their corresponding rendered
 
 **Contains**: 
 - Three spheres showing Phong, Gouraud, and Constant shading
-- Proper lighting setup with primary and fill lights
+- Properly balanced lighting with primary and fill lights
 - Ground plane with adequate tessellation
+- Optimized camera positioning for clear visibility
 
 **Key points**: 
-- Shows clear differences between shading methods
-- Demonstrates proper specular highlights with Phong shading
-- Good example of professional scene setup
+- Shows clear differences between shading methods with proper brightness levels
+- Demonstrates realistic specular highlights with Phong shading
+- Professional scene setup with balanced lighting to avoid overexposure
+- Camera positioned at optimal angle and distance for showcasing all spheres
 
 ### `simple_example.xml` / `simple_example.png`
 **Purpose**: Simplified version of the main scene focusing on tessellation effects.
@@ -40,10 +42,16 @@ This directory contains example XML scene files and their corresponding rendered
 ![Plane Tessellation Example](plane_tessellation.png)
 
 **Contains**:
-- Two identical planes with different subdivision levels
-- Demonstrates before/after tessellation improvement
+- Two identical planes with different subdivision levels (left: low tessellation, right: high tessellation)
+- Multiple light sources for even illumination
+- Clear demonstration of how tessellation affects gradient quality
+- Base platform for spatial reference
 
-**Note**: This scene has clipping issues with the current camera setup but illustrates the concept.
+**Key points**:
+- Left plane (dl="1" dw="1"): Shows flat, "one-colored" appearance with insufficient tessellation
+- Right plane (dl="10" dw="10"): Demonstrates smooth gradients with proper tessellation
+- Fixed camera positioning and bright lighting for clear visibility
+- Direct illustration of the tessellation-related shading issue and its solution
 
 ### `shading_comparison.xml`
 **Purpose**: Side-by-side comparison of three spheres with different shading methods.
@@ -94,15 +102,19 @@ java -jar shader.jar examples/[scene_name].xml examples/[output_name].bmp
 
 ### Issue: "One-colored" or flat appearance
 **Cause**: Insufficient tessellation (subdivision) for Gouraud shading
-**Solution**: Increase dl, dw, dh parameters in object definitions
+**Solution**: Increase dl, dw, dh parameters in object definitions (recommend ≥ 8-10 for smooth gradients)
+
+### Issue: Scene renders completely black
+**Cause**: Improper camera positioning, objects outside viewing frustum, or insufficient lighting
+**Solution**: Use proven camera setups from working examples; ensure adequate ambient + point lighting
 
 ### Issue: Too dark or no visible lighting
-**Cause**: Improper camera positioning or inadequate lighting
-**Solution**: Use proven camera setups from working examples
+**Cause**: Light sources too far from objects or insufficient light intensity
+**Solution**: Position lights closer to objects; increase light intensity (s parameter); add ambient lighting
 
-### Issue: Excessive specular highlights  
-**Cause**: Too high specular coefficients or shininess values
-**Solution**: Reduce specS values or adjust specular color components
+### Issue: Overexposed or too bright objects
+**Cause**: Excessive light intensity or too many overlapping light sources
+**Solution**: Reduce point light intensity (s parameter); decrease ambient lighting; balance multiple light sources
 
 ## Technical Notes
 
