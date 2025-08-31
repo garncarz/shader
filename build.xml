@@ -38,6 +38,12 @@
 		<java jar="shader.jar" fork="true" />
 	</target>
 
+	<target name="test" depends="compile">
+		<java classname="test.ShadingTests" fork="true">
+			<classpath path="classes" />
+		</java>
+	</target>
+
 
 	<target name="clean">
 		<delete includeEmptyDirs="true" quiet="true">
