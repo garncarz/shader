@@ -22,19 +22,24 @@ This directory contains example XML scene files and their corresponding rendered
 - Camera positioned at optimal angle and distance for showcasing all spheres
 
 ### `simple_example.xml` / `simple_example.png`
-**Purpose**: Simplified version of the main scene focusing on tessellation effects.
+**Purpose**: Colorful castle scene demonstrating various shading techniques in an engaging architectural context.
 
 ![Simple Example](simple_example.png)
 
 **Contains**:
-- Two blocks with different tessellation levels (low vs high)
-- Demonstrates the "one-colored" issue with low tessellation
-- Shows how higher tessellation improves gradient quality
+- Castle main body (gray stone block with Gouraud shading)
+- Multiple colored towers using different shading methods
+- Red tower (left) with Phong shading for realistic highlights
+- Blue tower (right) with Phong shading
+- Green central tower with Gouraud shading
+- Dark gate entrance with constant shading
+- Colorful grass ground plane
 
 **Key points**:
-- Low tessellation: dl="1" dw="1" dh="1" produces flat appearance
-- High tessellation: dl="10" dw="10" dh="1" shows smooth gradients
-- Direct illustration of the reported shading issue
+- Demonstrates how different shading techniques work on architectural elements
+- Shows realistic material properties with varied colors and reflectance
+- Multiple light sources create natural lighting conditions
+- Good example of mixing shading techniques for different materials
 
 ### `plane_tessellation.xml` / `plane_tessellation.png`
 **Purpose**: Focused comparison of tessellation effects on flat surfaces.
@@ -53,15 +58,22 @@ This directory contains example XML scene files and their corresponding rendered
 - Fixed camera positioning and bright lighting for clear visibility
 - Direct illustration of the tessellation-related shading issue and its solution
 
-### `shading_comparison.xml`
+### `shading_comparison.xml` / `shading_comparison.png`
 **Purpose**: Side-by-side comparison of three spheres with different shading methods.
 
-**Contains**:
-- Phong shaded sphere (left, red)
-- Gouraud shaded sphere (center, green)  
-- Constant shaded sphere (right, blue)
+![Shading Comparison Example](shading_comparison.png)
 
-**Note**: This scene has performance issues with complex clipping operations and may not render successfully. Use `best_practices.xml` instead for a working demonstration of different shading techniques.
+**Contains**:
+- Phong shaded sphere (left, red) - smoothest highlights
+- Gouraud shaded sphere (center, green) - smooth color transitions  
+- Constant shaded sphere (right, blue) - faceted appearance
+- Ground plane for spatial reference
+
+**Key points**:
+- Clear visual demonstration of how each shading technique affects surface appearance
+- Same sphere geometry with different rendering methods
+- Balanced lighting to show realistic material properties
+- Illustrates the progression from faceted to smooth shading
 
 ## Usage
 

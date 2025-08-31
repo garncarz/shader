@@ -1,23 +1,24 @@
 <?xml version="1.0"?>
 <scene>
+    <!-- Working camera setup -->
     <camera
-        vrpX="15" vrpY="-8" vrpZ="10"
-        vpnX="1" vpnY="0" vpnZ="0"
+        vrpX="20" vrpY="-5" vrpZ="15"
+        vpnX="20" vpnY="-5" vpnZ="15"
         vupX="0" vupY="0" vupZ="1"
         prpX="0" prpY="0" prpZ="1"
-        Umin="-2" Vmin="-2" Umax="2" Vmax="2"
-        front="2"
-        back="-40"
+        Umin="-1" Vmin="-1" Umax="1" Vmax="1"
+        front="0.5"
+        back="-60"
     />
     
     <alight
-        r="1" g="1" b="1" s="0.3"
+        r="1" g="1" b="1" s="0.4"
     />
     
     <plight
-        x="5" y="5" z="8"
-        r="1" g="1" b="1" s="20"
-        attX="1" attY="0.1" attZ="0.05"
+        x="10" y="10" z="6"
+        r="1" g="1" b="1" s="15"
+        attX="1" attY="0.3" attZ="0.45"
     />
     
     <!-- Sphere with Phong shading -->
@@ -50,11 +51,11 @@
         shading="CONST"
     />
     
-    <!-- Ground plane with low tessellation -->
+    <!-- Ground plane with reasonable tessellation -->
     <block
         x="0" y="0" z="-6"
-        l="30" w="30" h="1"
-        dl="1" dw="1" dh="1"
+        l="20" w="20" h="1"
+        dl="4" dw="4" dh="1"
         diffR="0.7" diffG="0.7" diffB="0.7" diffS="0.6"
         specR="0.1" specG="0.1" specB="0.1" specS="0.1"
         shading="GOUARD"
