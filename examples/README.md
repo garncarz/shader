@@ -1,11 +1,13 @@
 # Example Scenes and Generated Images
 
-This directory contains example XML scene files and their corresponding rendered BMP images that demonstrate various shading techniques and common issues.
+This directory contains example XML scene files and their corresponding rendered images that demonstrate various shading techniques and common issues.
 
 ## Available Examples
 
-### `best_practices.xml` / `best_practices.bmp`
+### `best_practices.xml` / `best_practices.png`
 **Purpose**: Demonstrates all four shading techniques side by side with optimal lighting and camera setup.
+
+![Best Practices Example](best_practices.png)
 
 **Contains**: 
 - Three spheres showing Phong, Gouraud, and Constant shading
@@ -17,8 +19,10 @@ This directory contains example XML scene files and their corresponding rendered
 - Demonstrates proper specular highlights with Phong shading
 - Good example of professional scene setup
 
-### `simple_example.xml` / `simple_example.bmp`
+### `simple_example.xml` / `simple_example.png`
 **Purpose**: Simplified version of the main scene focusing on tessellation effects.
+
+![Simple Example](simple_example.png)
 
 **Contains**:
 - Two blocks with different tessellation levels (low vs high)
@@ -30,8 +34,10 @@ This directory contains example XML scene files and their corresponding rendered
 - High tessellation: dl="10" dw="10" dh="1" shows smooth gradients
 - Direct illustration of the reported shading issue
 
-### `plane_tessellation.xml` / `plane_tessellation.bmp`
+### `plane_tessellation.xml` / `plane_tessellation.png`
 **Purpose**: Focused comparison of tessellation effects on flat surfaces.
+
+![Plane Tessellation Example](plane_tessellation.png)
 
 **Contains**:
 - Two identical planes with different subdivision levels
@@ -47,7 +53,7 @@ This directory contains example XML scene files and their corresponding rendered
 - Gouraud shaded sphere (center, green)  
 - Constant shaded sphere (right, blue)
 
-**Note**: This scene had performance issues with complex clipping operations.
+**Note**: This scene has performance issues with complex clipping operations and may not render successfully. Use `best_practices.xml` instead for a working demonstration of different shading techniques.
 
 ## Usage
 
@@ -55,6 +61,8 @@ Generate any example image:
 ```bash
 java -jar shader.jar examples/[scene_name].xml examples/[output_name].bmp
 ```
+
+**Note**: PNG versions are provided in the repository for showcase purposes. You can generate BMP files locally using the command above.
 
 ## Visual Differences Explained
 
@@ -98,7 +106,8 @@ java -jar shader.jar examples/[scene_name].xml examples/[output_name].bmp
 
 ## Technical Notes
 
-- All images are 700x700 pixels in BMP format
+- All images are 700x700 pixels
+- PNG versions are provided for showcase, BMP versions can be generated locally
 - Lighting calculations fixed to prevent negative color values
 - Camera setup is crucial for proper visibility of geometry
 - Point light attenuation follows: 1/(attX + attY*d + attZ*d²)
