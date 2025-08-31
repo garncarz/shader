@@ -1,0 +1,19 @@
+# Build artifacts
+classes/
+*.jar
+*.class
+doc/
+
+# Generated images
+*.bmp
+
+# IDE files
+.project
+.classpath
+.settings/
+*.iml
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db

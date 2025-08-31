@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<scene>
+    <!-- Camera setup for plane tessellation demo -->
+    <camera
+        vrpX="20" vrpY="-5" vrpZ="15"
+        vpnX="20" vpnY="-5" vpnZ="15"
+        vupX="0" vupY="0" vupZ="1"
+        prpX="0" prpY="0" prpZ="1"
+        Umin="-1" Vmin="-1" Umax="1" Vmax="1"
+        front="0.5"
+        back="-60"
+    />
+    
+    <!-- Simple lighting setup -->
+    <alight
+        r="1" g="1" b="1" s="0.4"
+    />
+    
+    <plight
+        x="10" y="10" z="6"
+        r="1" g="1" b="1" s="15"
+        attX="1" attY="0.3" attZ="0.45"
+    />
+    
+    <plight
+        x="-10" y="-10" z="6"
+        r="1" g="1" b="1" s="10"
+        attX="1" attY="0.5" attZ="0.5"
+    />
+    
+    <!-- Low tessellation plane - left side -->
+    <block
+        x="-8" y="0" z="0"
+        l="5" w="5" h="2"
+        dl="1" dw="1" dh="1"
+        diffR="0" diffG="0.7" diffB="1" diffS="0.8"
+        specR="0" specG="0.7" specB="1" specS="0.8"
+        shading="GOUARD"
+    />
+    
+    <!-- High tessellation plane - right side -->
+    <block
+        x="8" y="0" z="0"
+        l="5" w="5" h="2"
+        dl="10" dw="10" dh="1"
+        diffR="0" diffG="0.7" diffB="1" diffS="0.8"
+        specR="0" specG="0.7" specB="1" specS="0.8"
+        shading="GOUARD"
+    />
+    
+    <!-- Base platform for reference -->
+    <block
+        x="0" y="0" z="-4"
+        l="20" w="12" h="0.5"
+        dl="4" dw="3" dh="1"
+        diffR="1" diffG="1" diffB="0.5" diffS="0.8"
+        specR="1" specG="1" specB="0.5" specS="0.8"
+        shading="GOUARD"
+    />
+</scene>
