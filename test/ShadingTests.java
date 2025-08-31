@@ -27,7 +27,9 @@ public class ShadingTests {
             
             // Render the scene
             ColorRGBZ c = new ColorRGBZ(0, 0, 0, -1 * Definitions.REAL_MAX);
-            PixelMap map = new PixelMap(c, 400, 300);
+            PixelMap map = new PixelMap(c, 
+                Definitions.PXMAX - Definitions.PXMIN,
+                Definitions.PYMAX - Definitions.PYMIN);
             
             scene.cam.create();
             scene.triangulate();
@@ -36,7 +38,8 @@ public class ShadingTests {
             scene.viewingTransform();
             scene.clipping();
             scene.normalizeW();
-            scene.mapToDC(0, 0, 400, 300);
+            scene.mapToDC(Definitions.PXMIN, Definitions.PYMIN,
+                Definitions.PXMAX, Definitions.PYMAX);
             scene.rasterize(map);
             
             // Save test output
@@ -67,7 +70,9 @@ public class ShadingTests {
             
             // Render the scene
             ColorRGBZ c = new ColorRGBZ(0, 0, 0, -1 * Definitions.REAL_MAX);
-            PixelMap map = new PixelMap(c, 400, 300);
+            PixelMap map = new PixelMap(c, 
+                Definitions.PXMAX - Definitions.PXMIN,
+                Definitions.PYMAX - Definitions.PYMIN);
             
             scene.cam.create();
             scene.triangulate();
@@ -76,7 +81,8 @@ public class ShadingTests {
             scene.viewingTransform();
             scene.clipping();
             scene.normalizeW();
-            scene.mapToDC(0, 0, 400, 300);
+            scene.mapToDC(Definitions.PXMIN, Definitions.PYMIN,
+                Definitions.PXMAX, Definitions.PYMAX);
             scene.rasterize(map);
             
             // Save test output
@@ -115,7 +121,9 @@ public class ShadingTests {
             
             for (int i = 0; i < 4; i++) {
                 ColorRGBZ c = new ColorRGBZ(0, 0, 0, -1 * Definitions.REAL_MAX);
-                maps[i] = new PixelMap(c, 400, 300);
+                maps[i] = new PixelMap(c, 
+                    Definitions.PXMAX - Definitions.PXMIN,
+                    Definitions.PYMAX - Definitions.PYMIN);
                 
                 scenes[i].cam.create();
                 scenes[i].triangulate();
@@ -124,7 +132,8 @@ public class ShadingTests {
                 scenes[i].viewingTransform();
                 scenes[i].clipping();
                 scenes[i].normalizeW();
-                scenes[i].mapToDC(0, 0, 400, 300);
+                scenes[i].mapToDC(Definitions.PXMIN, Definitions.PYMIN,
+                    Definitions.PXMAX, Definitions.PYMAX);
                 scenes[i].rasterize(maps[i]);
                 
                 maps[i].writeToBmp("test/" + names[i] + "_comparison.bmp");
@@ -150,17 +159,17 @@ public class ShadingTests {
     private static Scene createGradientPlaneScene() throws Exception {
         Scene scene = new Scene();
         
-        // Set up camera
-        scene.cam.setVRP(new Vector3D(0, -10, 0));
-        scene.cam.setVPN(new Vector3D(0, 1, 0));
+        // Use working camera setup from input.xml
+        scene.cam.setVRP(new Vector3D(20, -5, 15));
+        scene.cam.setVPN(new Vector3D(20, -5, 15));
         scene.cam.setVUP(new Vector3D(0, 0, 1));
         scene.cam.setPRP(new Vector3D(0, 0, 1));
-        scene.cam.setUmin(-5);
-        scene.cam.setVmin(-5);
-        scene.cam.setUmax(5);
-        scene.cam.setVmax(5);
-        scene.cam.setF(-2);
-        scene.cam.setB(-20);
+        scene.cam.setUmin(-1);
+        scene.cam.setVmin(-1);
+        scene.cam.setUmax(1);
+        scene.cam.setVmax(1);
+        scene.cam.setF(0.5);
+        scene.cam.setB(-60);
         
         // Add ambient light
         light.ALight alight = new light.ALight(new ColorRGB(0.3, 0.3, 0.3));
@@ -168,18 +177,18 @@ public class ShadingTests {
         
         // Add point light
         light.PLight plight = new light.PLight();
-        plight.setP(new Vector3D(-5, -5, 5));
-        plight.setC(new ColorRGB(0.8, 0.8, 0.8));
+        plight.setP(new Vector3D(10, -10, 6));
+        plight.setC(new ColorRGB(1.0, 1.0, 1.0));
         plight.setA(new Vector3D(1, 0.1, 0.01));
         scene.lights.add(plight);
         
-        // Create a simple block as a plane
+        // Create a large plane (block) that should show gradient
         objects.Block block = new objects.Block();
-        block.l = 8;
-        block.w = 8; 
-        block.h = 0.1;
-        block.dl = 10;
-        block.dw = 10;
+        block.l = 15;
+        block.w = 15; 
+        block.h = 1;
+        block.dl = 1;  // Low division to see if it creates the "one-colored" issue
+        block.dw = 1;
         block.dh = 1;
         block.diff.set(new ColorRGB(0.7, 0.5, 0.3));
         block.spec.set(new ColorRGB(0.8, 0.8, 0.8));
@@ -196,33 +205,33 @@ public class ShadingTests {
     private static Scene createSphereScene() throws Exception {
         Scene scene = new Scene();
         
-        // Set up camera
-        scene.cam.setVRP(new Vector3D(0, -10, 0));
-        scene.cam.setVPN(new Vector3D(0, 1, 0));
+        // Use working camera setup from input.xml
+        scene.cam.setVRP(new Vector3D(20, -5, 15));
+        scene.cam.setVPN(new Vector3D(20, -5, 15));
         scene.cam.setVUP(new Vector3D(0, 0, 1));
         scene.cam.setPRP(new Vector3D(0, 0, 1));
-        scene.cam.setUmin(-3);
-        scene.cam.setVmin(-3);
-        scene.cam.setUmax(3);
-        scene.cam.setVmax(3);
-        scene.cam.setF(-2);
-        scene.cam.setB(-20);
+        scene.cam.setUmin(-1);
+        scene.cam.setVmin(-1);
+        scene.cam.setUmax(1);
+        scene.cam.setVmax(1);
+        scene.cam.setF(0.5);
+        scene.cam.setB(-60);
         
-        // Add lights
-        light.ALight alight = new light.ALight(new ColorRGB(0.2, 0.2, 0.2));
+        // Add lights similar to input.xml
+        light.ALight alight = new light.ALight(new ColorRGB(0.4, 0.4, 0.4));
         scene.lights.add(alight);
         
         light.PLight plight = new light.PLight();
-        plight.setP(new Vector3D(-3, -5, 3));
+        plight.setP(new Vector3D(10, 10, 6));
         plight.setC(new ColorRGB(1.0, 1.0, 1.0));
-        plight.setA(new Vector3D(1, 0.1, 0.01));
+        plight.setA(new Vector3D(1, 0.3, 0.45));
         scene.lights.add(plight);
         
-        // Create sphere
+        // Create sphere at origin to be visible with this camera
         objects.Sphere sphere = new objects.Sphere();
-        sphere.radius = 2.5;
-        sphere.dh = 20;
-        sphere.dv = 20;
+        sphere.radius = 5;
+        sphere.dh = 30;
+        sphere.dv = 30;
         sphere.diff.set(new ColorRGB(0.6, 0.3, 0.8));
         sphere.spec.set(new ColorRGB(0.9, 0.9, 0.9));
         sphere.shadingType = ShadingType.PHONG;
@@ -238,31 +247,31 @@ public class ShadingTests {
     private static Scene createComparisonScene(ShadingType shading) throws Exception {
         Scene scene = new Scene();
         
-        // Set up camera
-        scene.cam.setVRP(new Vector3D(0, -8, 0));
-        scene.cam.setVPN(new Vector3D(0, 1, 0));
+        // Use working camera setup from input.xml
+        scene.cam.setVRP(new Vector3D(20, -5, 15));
+        scene.cam.setVPN(new Vector3D(20, -5, 15));
         scene.cam.setVUP(new Vector3D(0, 0, 1));
         scene.cam.setPRP(new Vector3D(0, 0, 1));
-        scene.cam.setUmin(-4);
-        scene.cam.setVmin(-4);
-        scene.cam.setUmax(4);
-        scene.cam.setVmax(4);
-        scene.cam.setF(-2);
-        scene.cam.setB(-20);
+        scene.cam.setUmin(-1);
+        scene.cam.setVmin(-1);
+        scene.cam.setUmax(1);
+        scene.cam.setVmax(1);
+        scene.cam.setF(0.5);
+        scene.cam.setB(-60);
         
-        // Add lights
-        light.ALight alight = new light.ALight(new ColorRGB(0.3, 0.3, 0.3));
+        // Add lights similar to input.xml
+        light.ALight alight = new light.ALight(new ColorRGB(0.4, 0.4, 0.4));
         scene.lights.add(alight);
         
         light.PLight plight = new light.PLight();
-        plight.setP(new Vector3D(-2, -5, 3));
-        plight.setC(new ColorRGB(0.8, 0.8, 0.8));
-        plight.setA(new Vector3D(1, 0.1, 0.01));
+        plight.setP(new Vector3D(10, 10, 6));
+        plight.setC(new ColorRGB(1.0, 1.0, 1.0));
+        plight.setA(new Vector3D(1, 0.3, 0.45));
         scene.lights.add(plight);
         
         // Create sphere with specified shading
         objects.Sphere sphere = new objects.Sphere();
-        sphere.radius = 2.0;
+        sphere.radius = 5;
         sphere.dh = 15;
         sphere.dv = 15;
         sphere.diff.set(new ColorRGB(0.8, 0.4, 0.2));

@@ -153,23 +153,32 @@ public class PLight implements Light {
 		fatt = 1.0 / (a.getX() + a.getY() * d + a.getZ() * d * d);
 		l.normalize(); nor.normalize();
 		cosfi = l.dot(nor);
+		
+		// Diffuse component - clamp to avoid negative lighting
+		cosfi = Math.max(0, cosfi);
 		color.set(c);
 		color.mul(fatt);
 		color.mul(cosfi);
 		color.mul(diff);
 		
-		r.set(nor); r.mul(2); r.mul(cosfi); r.sub(l);
-		v.set(prp); v.sub(point);
-		r.normalize(); v.normalize();
-		cosalpha = v.dot(r);
-		
-		cosalpha = Math.pow(cosalpha, 20);
-		tmp.set(c);
-		tmp.mul(fatt);
-		tmp.mul(cosalpha);
-		tmp.mul(spec);
-		
-		color.add(tmp);
+		// Specular component - only if surface is lit
+		if (cosfi > 0) {
+			r.set(nor); r.mul(2); r.mul(cosfi); r.sub(l);
+			v.set(prp); v.sub(point);
+			r.normalize(); v.normalize();
+			cosalpha = v.dot(r);
+			
+			// Only apply specular if viewing angle is favorable
+			if (cosalpha > 0) {
+				cosalpha = Math.pow(cosalpha, 20);
+				tmp.set(c);
+				tmp.mul(fatt);
+				tmp.mul(cosalpha);
+				tmp.mul(spec);
+				
+				color.add(tmp);
+			}
+		}
 		
 		return color;
 	}

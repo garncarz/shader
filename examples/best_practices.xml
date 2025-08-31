@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<scene>
+    <!-- Camera positioned to get good lighting angles -->
+    <camera
+        vrpX="15" vrpY="-10" vrpZ="8"
+        vpnX="15" vpnY="-10" vpnZ="8"
+        vupX="0" vupY="0" vupZ="1"
+        prpX="0" prpY="0" prpZ="1"
+        Umin="-2" Vmin="-1.5" Umax="2" Vmax="1.5"
+        front="0.5"
+        back="-50"
+    />
+    
+    <!-- Moderate ambient lighting -->
+    <alight
+        r="1" g="1" b="1" s="0.2"
+    />
+    
+    <!-- Strong directional point light for good gradients -->
+    <plight
+        x="8" y="-5" z="10"
+        r="1" g="1" b="1" s="25"
+        attX="1" attY="0.05" attZ="0.01"
+    />
+    
+    <!-- Secondary light for fill -->
+    <plight
+        x="-8" y="-5" z="5"
+        r="1" g="1" b="1" s="10"
+        attX="1" attY="0.1" attZ="0.05"
+    />
+    
+    <!-- Sphere with Phong shading - should show smooth highlights -->
+    <sphere
+        x="-6" y="0" z="0"
+        radius="3"
+        dh="20" dv="20"
+        diffR="0.8" diffG="0.3" diffB="0.2" diffS="0.8"
+        specR="0.9" specG="0.9" specB="0.9" specS="1.2"
+        shading="PHONG"
+    />
+    
+    <!-- Sphere with Gouraud shading - should show vertex-based gradients -->
+    <sphere
+        x="0" y="0" z="0"
+        radius="3"
+        dh="20" dv="20"
+        diffR="0.2" diffG="0.8" diffB="0.3" diffS="0.8"
+        specR="0.9" specG="0.9" specB="0.9" specS="1.0"
+        shading="GOUARD"
+    />
+    
+    <!-- Sphere with constant shading - should show flat triangular faces -->
+    <sphere
+        x="6" y="0" z="0"
+        radius="3"
+        dh="20" dv="20"
+        diffR="0.3" diffG="0.2" diffB="0.8" diffS="0.8"
+        specR="0.9" specG="0.9" specB="0.9" specS="1.0"
+        shading="CONST"
+    />
+    
+    <!-- Ground plane with adequate tessellation -->
+    <block
+        x="0" y="0" z="-4"
+        l="20" w="12" h="0.5"
+        dl="6" dw="4" dh="1"
+        diffR="0.6" diffG="0.6" diffB="0.6" diffS="0.7"
+        specR="0.3" specG="0.3" specB="0.3" specS="0.2"
+        shading="GOUARD"
+    />
+</scene>

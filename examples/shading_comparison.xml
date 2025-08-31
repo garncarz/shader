@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<scene>
+    <camera
+        vrpX="15" vrpY="-8" vrpZ="10"
+        vpnX="1" vpnY="0" vpnZ="0"
+        vupX="0" vupY="0" vupZ="1"
+        prpX="0" prpY="0" prpZ="1"
+        Umin="-2" Vmin="-2" Umax="2" Vmax="2"
+        front="2"
+        back="-40"
+    />
+    
+    <alight
+        r="1" g="1" b="1" s="0.3"
+    />
+    
+    <plight
+        x="5" y="5" z="8"
+        r="1" g="1" b="1" s="20"
+        attX="1" attY="0.1" attZ="0.05"
+    />
+    
+    <!-- Sphere with Phong shading -->
+    <sphere
+        x="-8" y="0" z="0"
+        radius="4"
+        dh="25" dv="25"
+        diffR="0.8" diffG="0.2" diffB="0.3" diffS="0.8"
+        specR="0.9" specG="0.9" specB="0.9" specS="1.0"
+        shading="PHONG"
+    />
+    
+    <!-- Sphere with Gouraud shading -->
+    <sphere
+        x="0" y="0" z="0"
+        radius="4"
+        dh="25" dv="25"
+        diffR="0.2" diffG="0.8" diffB="0.3" diffS="0.8"
+        specR="0.9" specG="0.9" specB="0.9" specS="1.0"
+        shading="GOUARD"
+    />
+    
+    <!-- Sphere with constant shading -->
+    <sphere
+        x="8" y="0" z="0"
+        radius="4"
+        dh="25" dv="25"
+        diffR="0.3" diffG="0.2" diffB="0.8" diffS="0.8"
+        specR="0.9" specG="0.9" specB="0.9" specS="1.0"
+        shading="CONST"
+    />
+    
+    <!-- Ground plane with low tessellation -->
+    <block
+        x="0" y="0" z="-6"
+        l="30" w="30" h="1"
+        dl="1" dw="1" dh="1"
+        diffR="0.7" diffG="0.7" diffB="0.7" diffS="0.6"
+        specR="0.1" specG="0.1" specB="0.1" specS="0.1"
+        shading="GOUARD"
+    />
+</scene>
